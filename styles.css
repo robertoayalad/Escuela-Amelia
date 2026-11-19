@@ -1,0 +1,290 @@
+:root {
+  --ink: #2a2118;
+  --muted: #6a5340;
+  --paper: #f3e6c4;
+  --card: #fff8ea;
+  --night: #241848;
+  --gold: #e2b340;
+  --cream: #fff8e8;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  font-size: 18px;
+  line-height: 1.4;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(rgba(90, 58, 20, 0.07) 0.7px, transparent 0.8px);
+  background-size: 8px 8px;
+}
+
+.pagina {
+  width: min(920px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 48px;
+}
+
+.encabezado {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  color: var(--cream);
+  background: linear-gradient(180deg, #3a2a6e 0%, #241848 72%, #1a1338 100%);
+  border: 3px solid var(--gold);
+  border-radius: 28px;
+  box-shadow: 6px 6px 0 #1a1338;
+}
+
+.chispa,
+.skyline {
+  position: absolute;
+  pointer-events: none;
+}
+
+.chispa-izq {
+  top: 14px;
+  left: 16px;
+  width: 72px;
+  height: 58px;
+}
+
+.chispa-der {
+  top: 16px;
+  right: 18px;
+  width: 72px;
+  height: 36px;
+}
+
+.skyline {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 78px;
+}
+
+.encabezado-texto {
+  position: relative;
+  z-index: 1;
+  padding: 28px 96px 96px;
+}
+
+.conjuro {
+  margin: 0;
+  color: #f6d56a;
+  font-family: Palatino, "Palatino Linotype", "Book Antiqua", Georgia, "Liberation Serif", "Times New Roman", serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 0 rgba(10, 6, 24, 0.45);
+}
+
+h1,
+.materia h2,
+.actividad-titulo,
+.portal-volver a {
+  font-family: Palatino, "Palatino Linotype", "Book Antiqua", Georgia, "Liberation Serif", "Times New Roman", serif;
+}
+
+h1 {
+  margin: 8px 0 0;
+  font-size: clamp(2rem, 7vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: var(--cream);
+  text-shadow: 0 2px 0 rgba(10, 6, 24, 0.5);
+}
+
+.saludo {
+  margin: 12px auto 0;
+  max-width: 22em;
+  font-family: Palatino, "Palatino Linotype", "Book Antiqua", Georgia, "Liberation Serif", "Times New Roman", serif;
+  font-size: clamp(1.15rem, 2.6vw, 1.45rem);
+  color: #f3e6c8;
+  text-shadow: 0 2px 0 rgba(10, 6, 24, 0.4);
+}
+
+.materias {
+  display: grid;
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.materia {
+  background: var(--tint, var(--card));
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.45), transparent 42%);
+  border: 3px solid var(--color, var(--ink));
+  border-radius: 24px;
+  padding: 16px;
+  box-shadow: 5px 5px 0 var(--shadow, var(--color, var(--ink)));
+}
+
+.materia-cabeza {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.motivo {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 auto;
+  padding: 8px;
+  background: #fffdf8;
+  border: 2px solid var(--color, var(--ink));
+  border-radius: 18px;
+  color: var(--color, var(--ink));
+}
+
+.materia h2 {
+  margin: 0;
+  font-size: clamp(1.35rem, 3vw, 1.7rem);
+  line-height: 1.15;
+  color: var(--color, var(--ink));
+}
+
+.actividad {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 76px;
+  margin-top: 12px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  background: #fffdf8;
+  border: 2px solid var(--color, var(--ink));
+  color: var(--ink);
+  text-decoration: none;
+  touch-action: manipulation;
+  box-shadow: 3px 3px 0 rgba(42, 33, 24, 0.12);
+}
+
+.actividad:hover,
+.actividad:active {
+  background: #fff;
+}
+
+.actividad:focus-visible,
+.motivo:focus-visible {
+  outline: 3px solid var(--night);
+  outline-offset: 3px;
+}
+
+.actividad-titulo {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.actividad-detalle {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 0.98rem;
+  font-weight: 500;
+}
+
+.flecha {
+  flex: 0 0 auto;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--color, var(--ink));
+}
+
+.pronto {
+  margin: 12px 0 0;
+  padding: 16px;
+  border-radius: 16px;
+  border: 2px dashed var(--color, var(--ink));
+  background: rgba(255, 253, 248, 0.65);
+  text-align: center;
+  font-family: Palatino, "Palatino Linotype", Georgia, "Liberation Serif", serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color, var(--ink));
+}
+
+.aviso {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--card);
+  border: 2px solid var(--ink);
+}
+
+.pie {
+  margin: 22px 0 0;
+  text-align: center;
+  color: var(--muted);
+  font-family: Palatino, "Palatino Linotype", Georgia, "Liberation Serif", serif;
+  font-size: 1rem;
+}
+
+.duendes {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+@media (min-width: 800px) {
+  .pagina {
+    padding-top: 40px;
+  }
+
+  .materias {
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .materias > .materia:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagina {
+    width: min(920px, calc(100% - 20px));
+    padding-top: 16px;
+  }
+
+  .encabezado {
+    border-radius: 22px;
+  }
+
+  .encabezado-texto {
+    padding: 52px 14px 86px;
+  }
+
+  .chispa-izq {
+    top: 10px;
+    left: 10px;
+    width: 48px;
+    height: 40px;
+  }
+
+  .chispa-der {
+    top: 12px;
+    right: 12px;
+    width: 56px;
+    height: 28px;
+  }
+
+  .motivo {
+    width: 54px;
+    height: 54px;
+  }
+}

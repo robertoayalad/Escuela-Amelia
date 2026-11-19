@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="cielo" cx="50%" cy="38%" r="68%">
+      <stop offset="0%" stop-color="#5b3d9a"/>
+      <stop offset="55%" stop-color="#2a1b58"/>
+      <stop offset="100%" stop-color="#140e30"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#cielo)"/>
+  <g fill="#f6d56a">
+    <polygon points="78,70 86,92 110,92 91,106 98,128 78,114 58,128 65,106 46,92 70,92"/>
+    <polygon points="430,64 436,80 454,80 440,90 445,106 430,96 415,106 420,90 406,80 424,80"/>
+    <polygon points="64,360 69,374 84,374 72,383 76,397 64,388 52,397 56,383 44,374 59,374"/>
+    <polygon points="448,400 454,416 472,416 458,426 463,442 448,432 433,442 438,426 424,416 440,416"/>
+  </g>
+  <g fill="#fff8e8">
+    <circle cx="150" cy="58" r="4"/>
+    <circle cx="360" cy="48" r="3"/>
+    <circle cx="48" cy="180" r="3"/>
+    <circle cx="470" cy="210" r="3.5"/>
+    <circle cx="120" cy="450" r="3"/>
+    <circle cx="400" cy="300" r="2.5"/>
+  </g>
+  <g id="emblema">
+    <line x1="128" y1="412" x2="214" y2="328" stroke="#6b4423" stroke-width="16" stroke-linecap="round"/>
+    <polygon points="118,424 146,392 104,392" fill="#f0c14a" stroke="#3a2712" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="256" cy="268" r="168" fill="#f4e2bc" stroke="#e2b340" stroke-width="14"/>
+    <circle cx="256" cy="268" r="150" fill="none" stroke="#fff8ea" stroke-width="4"/>
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M176 382 L256 168 L336 382" stroke="#e2b340" stroke-width="48"/>
+      <path d="M206 304 H306" stroke="#e2b340" stroke-width="36"/>
+      <path d="M176 382 L256 168 L336 382" stroke="#9b1c32" stroke-width="32"/>
+      <path d="M214 304 H298" stroke="#9b1c32" stroke-width="22"/>
+    </g>
+    <g fill="none" stroke="#3a2712" stroke-width="8" stroke-linecap="round">
+      <circle cx="214" cy="258" r="34" fill="#fff8ea" fill-opacity="0.45"/>
+      <circle cx="298" cy="258" r="34" fill="#fff8ea" fill-opacity="0.45"/>
+      <path d="M248 258 H264"/>
+      <path d="M180 254 L158 242"/>
+      <path d="M332 254 L354 242"/>
+    </g>
+    <circle cx="202" cy="248" r="6" fill="#fff" opacity="0.9"/>
+    <circle cx="286" cy="248" r="6" fill="#fff" opacity="0.9"/>
+    <polygon points="372,118 338,176 366,176 348,228 412,164 376,164" fill="#f0c14a" stroke="#3a2712" stroke-width="6" stroke-linejoin="round"/>
+  </g>
+</svg>
