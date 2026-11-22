@@ -42,7 +42,9 @@ window.ESCUELA_ACTIVITIES = [
     color: "#2a2416",
     tint: "#fff3b0",
     shadow: "#2a2416",
-    activities: [],
+    activities: [
+      { title: "Los accidentes del verbo", href: "lenguaje/accidentes-del-verbo.html", detail: "Persona, número, tiempo, modo e infinitivo" },
+    ],
   },
   {
     id: "estudios-sociales",
