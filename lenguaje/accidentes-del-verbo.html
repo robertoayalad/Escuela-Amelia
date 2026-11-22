@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Práctica de Lenguaje</title>
+  <link rel="stylesheet" href="../actividad.css">
+</head>
+<body style="margin:0;background:#f4f7fb">
+<nav class="portal-volver" aria-label="Inicio"><a href="../index.html"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 64 64" aria-hidden="true"><polygon points="36,4 14,36 30,36 22,60 54,26 36,28" fill="#c8922a"/></svg>← Volver al inicio</a></nav>
+
+<div id="lenguaje-quiz">
+  <style>
+    #lenguaje-quiz {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 20px;
+      color: #24344d;
+      box-sizing: border-box;
+    }
+    #lenguaje-quiz * { box-sizing: border-box; }
+    #lenguaje-quiz .panel {
+      background: #fff;
+      border: 1px solid #dce5f2;
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 4px 16px #20305012;
+    }
+    #lenguaje-quiz h2 {
+      text-align: center;
+      color: #2059a6;
+      margin: 0 0 8px;
+    }
+    #lenguaje-quiz .subtitle {
+      text-align: center;
+      color: #63748a;
+      margin-bottom: 22px;
+    }
+    #lenguaje-quiz .progress {
+      height: 10px;
+      background: #e7edf7;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 12px 0 24px;
+    }
+    #lenguaje-quiz .bar {
+      height: 100%;
+      background: #4385e6;
+      width: 0%;
+      transition: width .25s;
+    }
+    #lenguaje-quiz .category {
+      color: #2762ad;
+      font-size: 13px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    #lenguaje-quiz .question {
+      font-size: 21px;
+      font-weight: bold;
+      line-height: 1.4;
+      margin: 18px 0;
+    }
+    #lenguaje-quiz .option {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      background: #f7faff;
+      border: 2px solid #dce5f2;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 17px;
+      font-family: inherit;
+      line-height: 1.4;
+      color: #24344d;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    #lenguaje-quiz .option:hover {
+      border-color: #4385e6;
+    }
+    #lenguaje-quiz .correct {
+      background: #e8f8ec;
+      border-color: #29a45c;
+    }
+    #lenguaje-quiz .wrong {
+      background: #fff0f0;
+      border-color: #df5555;
+    }
+    #lenguaje-quiz .feedback {
+      padding: 14px;
+      border-radius: 12px;
+      background: #f0f5ff;
+      margin-top: 18px;
+      line-height: 1.5;
+    }
+    #lenguaje-quiz .actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 22px;
+    }
+    #lenguaje-quiz .btn {
+      border: none;
+      background: #2869c5;
+      color: white;
+      padding: 13px 20px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-family: inherit;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    #lenguaje-quiz .btn:disabled {
+      background: #aab8cb;
+      cursor: default;
+    }
+    #lenguaje-quiz .secondary {
+      background: #eaf0f8;
+      color: #24344d;
+    }
+    #lenguaje-quiz .score {
+      text-align: center;
+      font-size: 48px;
+      color: #2059a6;
+      font-weight: bold;
+      margin: 24px 0 10px;
+    }
+    #lenguaje-quiz .center { text-align: center; }
+    #lenguaje-quiz .review-item {
+      border-bottom: 1px solid #e5eaf2;
+      padding: 12px 0;
+      line-height: 1.5;
+    }
+    @media(max-width:480px) {
+      #lenguaje-quiz { padding: 8px; }
+      #lenguaje-quiz .panel { padding: 16px; }
+      #lenguaje-quiz .question { font-size: 18px; }
+      #lenguaje-quiz .option { font-size: 15px; }
+    }
+  </style>
+
+  <div class="panel">
+    <h2>Práctica de Lenguaje</h2>
+    <div class="subtitle">
+      Los accidentes del verbo y el infinitivo
+    </div>
+    <div id="quiz-content" aria-live="polite"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const questions = [
+    {
+      type: "Definición",
+      q: "¿Qué es un verbo?",
+      options: [
+        "Una palabra que nombra a una persona o un lugar",
+        "Una palabra que expresa una acción, un estado o un proceso",
+        "Una palabra que dice el color o el tamaño de algo",
+        "Un signo de puntuación"
+      ],
+      answer: 1,
+      explanation: "Un verbo expresa una acción, un estado o un proceso. Reciclar, plantar y cuidar son verbos."
+    },
+    {
+      type: "Definición",
+      q: "¿Qué es el infinitivo?",
+      options: [
+        "La forma básica del verbo, sin conjugar",
+        "El verbo cuando ya dice quién hace la acción",
+        "Solo el tiempo pasado del verbo",
+        "Una orden, como «¡Cuida!»"
+      ],
+      answer: 0,
+      explanation: "El infinitivo es la forma básica del verbo, sin conjugar. No dice quién hace la acción y termina en -ar, -er o -ir."
+    },
+    {
+      type: "Definición",
+      q: "¿Qué son los accidentes del verbo?",
+      options: [
+        "Los nombres de los árboles, los ríos y los animales",
+        "Las sílabas en las que se separa una palabra",
+        "Los cambios que experimenta un verbo para indicar quién realiza la acción, cuántas personas la realizan, cuándo sucede y cómo se expresa",
+        "Los puntos y las comas de una oración"
+      ],
+      answer: 2,
+      explanation: "Son los cambios que experimenta un verbo para indicar quién realiza la acción, cuántas personas la realizan, cuándo sucede y cómo se expresa."
+    },
+    {
+      type: "Definición",
+      q: "¿Cuáles son los accidentes del verbo?",
+      options: [
+        "Sólido, líquido y gas",
+        "Persona, número, tiempo y modo",
+        "-ar, -er e -ir",
+        "Sujeto, adjetivo y artículo"
+      ],
+      answer: 1,
+      explanation: "Los accidentes del verbo son cuatro: persona, número, tiempo y modo."
+    },
+    {
+      type: "Definición",
+      q: "¿Qué indica la persona del verbo?",
+      options: [
+        "Cuántos realizan la acción",
+        "Cuándo sucede la acción",
+        "Si la oración es una orden o un deseo",
+        "Quién realiza la acción"
+      ],
+      answer: 3,
+      explanation: "La persona indica quién realiza la acción. Primera: yo y nosotros. Segunda: tú y ustedes. Tercera: él, ella, ellos y ellas."
+    },
+    {
+      type: "Definición",
+      q: "¿Qué indica el número del verbo?",
+      options: [
+        "Cuántos realizan la acción",
+        "Quién realiza la acción",
+        "En qué termina el infinitivo",
+        "Si el hecho es real o es un deseo"
+      ],
+      answer: 0,
+      explanation: "El número indica cuántos realizan la acción. Si la hace una persona, es singular. Si la hacen varias, es plural."
+    },
+    {
+      type: "Persona y número",
+      q: "En «yo reciclo», ¿en qué persona y número está el verbo?",
+      options: [
+        "Primera persona del plural",
+        "Segunda persona del singular",
+        "Primera persona del singular",
+        "Tercera persona del singular"
+      ],
+      answer: 2,
+      explanation: "«Yo» es la primera persona y es una sola persona: singular. Por eso decimos «yo reciclo», como «yo cuido»."
+    },
+    {
+      type: "Persona y número",
+      q: "En «tú plantas un árbol», ¿en qué persona y número está el verbo?",
+      options: [
+        "Segunda persona del singular",
+        "Primera persona del singular",
+        "Segunda persona del plural",
+        "Tercera persona del plural"
+      ],
+      answer: 0,
+      explanation: "«Tú» es la segunda persona y es una sola persona: singular. Por eso decimos «tú plantas», como «tú cuidas»."
+    },
+    {
+      type: "Persona y número",
+      q: "En «él cuida los árboles», ¿en qué persona y número está el verbo?",
+      options: [
+        "Tercera persona del plural",
+        "Primera persona del singular",
+        "Segunda persona del singular",
+        "Tercera persona del singular"
+      ],
+      answer: 3,
+      explanation: "«Él» y «ella» son la tercera persona y son una sola persona: singular. En la conjugación de cuidar decimos «él cuida»."
+    },
+    {
+      type: "Persona y número",
+      q: "En «nosotros cuidamos las plantas», ¿en qué persona y número está el verbo?",
+      options: [
+        "Primera persona del singular",
+        "Primera persona del plural",
+        "Segunda persona del plural",
+        "Tercera persona del plural"
+      ],
+      answer: 1,
+      explanation: "«Nosotros» es la primera persona y son varias personas: plural. Por eso decimos «nosotros cuidamos»."
+    },
+    {
+      type: "Persona y número",
+      q: "En «ustedes reciclan», ¿en qué persona y número está el verbo?",
+      options: [
+        "Segunda persona del singular",
+        "Tercera persona del plural",
+        "Primera persona del plural",
+        "Segunda persona del plural"
+      ],
+      answer: 3,
+      explanation: "En tu lección, ustedes es la segunda persona. Son varias personas, así que es plural: el verbo se parece al de «ellos», pero la persona es la segunda."
+    },
+    {
+      type: "Persona y número",
+      q: "En «ellos contaminan el río», ¿en qué persona y número está el verbo?",
+      options: [
+        "Tercera persona del plural",
+        "Tercera persona del singular",
+        "Segunda persona del plural",
+        "Primera persona del plural"
+      ],
+      answer: 0,
+      explanation: "«Ellos» y «ellas» son la tercera persona. Como son varias personas, el número es plural."
+    },
+    {
+      type: "Tiempo",
+      q: "«Los estudiantes reciclan.» ¿En qué tiempo está el verbo?",
+      options: [
+        "Pasado",
+        "Futuro",
+        "Presente",
+        "Infinitivo"
+      ],
+      answer: 2,
+      explanation: "«Reciclan» dice lo que hacen ahora. Ese tiempo es el presente."
+    },
+    {
+      type: "Tiempo",
+      q: "«Los estudiantes reciclaron.» ¿En qué tiempo está el verbo?",
+      options: [
+        "Pasado",
+        "Presente",
+        "Futuro",
+        "Imperativo"
+      ],
+      answer: 0,
+      explanation: "«Reciclaron» ya sucedió. Ese tiempo es el pasado."
+    },
+    {
+      type: "Tiempo",
+      q: "«Los estudiantes reciclarán.» ¿En qué tiempo está el verbo?",
+      options: [
+        "Presente",
+        "Pasado",
+        "Infinitivo",
+        "Futuro"
+      ],
+      answer: 3,
+      explanation: "«Reciclarán» todavía no sucede: va a ocurrir después. Ese tiempo es el futuro."
+    },
+    {
+      type: "Modo",
+      q: "«Los árboles producen oxígeno.» ¿En qué modo está el verbo?",
+      options: [
+        "Subjuntivo",
+        "Indicativo",
+        "Imperativo",
+        "Presente"
+      ],
+      answer: 1,
+      explanation: "El modo indicativo expresa hechos o acciones reales. Que los árboles producen oxígeno es un hecho real. Presente es el tiempo, no el modo."
+    },
+    {
+      type: "Modo",
+      q: "«Ojalá todos protejan los bosques.» ¿En qué modo está el verbo?",
+      options: [
+        "Indicativo",
+        "Imperativo",
+        "Subjuntivo",
+        "Infinitivo"
+      ],
+      answer: 2,
+      explanation: "El modo subjuntivo expresa deseos o situaciones hipotéticas. «Ojalá» muestra un deseo."
+    },
+    {
+      type: "Modo",
+      q: "«¡Cuida los árboles!» ¿En qué modo está el verbo?",
+      options: [
+        "Imperativo",
+        "Indicativo",
+        "Subjuntivo",
+        "Pasado"
+      ],
+      answer: 0,
+      explanation: "El modo imperativo expresa órdenes, instrucciones o recomendaciones. «¡Cuida!» es una orden."
+    },
+    {
+      type: "Infinitivo",
+      q: "¿Cuál es el infinitivo del verbo «reciclan»?",
+      options: [
+        "Reciclaron",
+        "Reciclando",
+        "Reciclar",
+        "Reciclado"
+      ],
+      answer: 2,
+      explanation: "«Reciclan» está conjugado. Su forma básica, sin conjugar, es reciclar."
+    },
+    {
+      type: "Infinitivo",
+      q: "¿Cuál es el infinitivo del verbo «protegen»?",
+      options: [
+        "Protegiendo",
+        "Proteger",
+        "Protegieron",
+        "Protegido"
+      ],
+      answer: 1,
+      explanation: "«Protegen» está conjugado. Su infinitivo es proteger, que termina en -er."
+    },
+    {
+      type: "Terminación",
+      q: "El infinitivo «contaminar» termina en…",
+      options: [
+        "-er",
+        "-ir",
+        "-ando",
+        "-ar"
+      ],
+      answer: 3,
+      explanation: "Contaminar termina en -ar. Reciclar, plantar y cuidar también terminan en -ar."
+    },
+    {
+      type: "Terminación",
+      q: "El infinitivo «proteger» termina en…",
+      options: [
+        "-er",
+        "-ar",
+        "-ir",
+        "-en"
+      ],
+      answer: 0,
+      explanation: "Proteger termina en -er. Es la forma básica del verbo, sin conjugar."
+    },
+    {
+      type: "Terminación",
+      q: "¿Cuál de estos infinitivos termina en -ir?",
+      options: [
+        "Reciclar",
+        "Plantar",
+        "Reducir",
+        "Proteger"
+      ],
+      answer: 2,
+      explanation: "Reducir termina en -ir, como cuando decimos «reducir la basura». Reciclar y plantar terminan en -ar. Proteger termina en -er."
+    },
+    {
+      type: "Conjugación",
+      q: "Completa la oración: «Yo ____ los árboles.» El verbo es cuidar.",
+      options: [
+        "cuidas",
+        "cuido",
+        "cuidamos",
+        "cuidan"
+      ],
+      answer: 1,
+      explanation: "Con «yo» decimos «yo cuido». La conjugación de cuidar es: yo cuido, tú cuidas, él cuida, nosotros cuidamos, ellos cuidan."
+    },
+    {
+      type: "Conjugación",
+      q: "Completa la oración: «Tú ____ las botellas.» El verbo es reciclar.",
+      options: [
+        "reciclo",
+        "reciclamos",
+        "reciclan",
+        "reciclas"
+      ],
+      answer: 3,
+      explanation: "Con «tú», el verbo termina en -as. Decimos «tú reciclas», igual que «tú cuidas»."
+    }
+  ];
+
+  let current = 0;
+  let answers = {};
+
+  const root = document.getElementById("quiz-content");
+
+  function make(tag, text, className) {
+    const el = document.createElement(tag);
+    if (text !== undefined) el.textContent = text;
+    if (className) el.className = className;
+    return el;
+  }
+
+  function button(label, fn, secondary, disabled) {
+    const b = make("button", label,
+      "btn" + (secondary ? " secondary" : ""));
+    b.type = "button";
+    b.disabled = !!disabled;
+    b.addEventListener("click", fn);
+    return b;
+  }
+
+  function showQuestion() {
+    root.replaceChildren();
+
+    const q = questions[current];
+    const selected = answers[current];
+
+    root.appendChild(
+      make("div",
+        "Pregunta " + (current + 1) +
+        " de " + questions.length,
+        "category")
+    );
+
+    const progress = make("div", undefined, "progress");
+    const bar = make("div", undefined, "bar");
+    bar.style.width =
+      ((current + 1) / questions.length * 100) + "%";
+    progress.appendChild(bar);
+    root.appendChild(progress);
+
+    root.appendChild(make("div", q.type, "category"));
+    root.appendChild(make("div", q.q, "question"));
+
+    q.options.forEach((option, index) => {
+      const b = make("button", option, "option");
+      b.type = "button";
+
+      if (selected !== undefined) {
+        b.disabled = true;
+        if (index === q.answer) b.classList.add("correct");
+        if (index === selected && index !== q.answer) {
+          b.classList.add("wrong");
+        }
+      }
+
+      b.addEventListener("click", () => {
+        if (answers[current] !== undefined) return;
+        answers[current] = index;
+        showQuestion();
+      });
+
+      root.appendChild(b);
+    });
+
+    if (selected !== undefined) {
+      const correct = selected === q.answer;
+      root.appendChild(
+        make("div",
+          (correct ? "¡Correcto! ¡Muy bien! " :
+                     "¡Casi! ") + q.explanation,
+          "feedback")
+      );
+    }
+
+    const actions = make("div", undefined, "actions");
+
+    actions.appendChild(
+      button("Anterior", () => {
+        current--;
+        showQuestion();
+      }, true, current === 0)
+    );
+
+    actions.appendChild(
+      button(
+        current === questions.length - 1
+          ? "Ver mi puntaje"
+          : "Siguiente",
+        () => {
+          if (current === questions.length - 1) {
+            showResults();
+          } else {
+            current++;
+            showQuestion();
+          }
+        },
+        false,
+        selected === undefined
+      )
+    );
+
+    root.appendChild(actions);
+  }
+
+  function showResults() {
+    root.replaceChildren();
+
+    let score = 0;
+    questions.forEach((q, i) => {
+      if (answers[i] === q.answer) score++;
+    });
+
+    root.appendChild(
+      make("div", score + " / " + questions.length, "score")
+    );
+
+    let message = "¡Sigue practicando!";
+    if (score === questions.length) {
+      message = "¡Excelente! ¡Puntaje perfecto!";
+    } else if (score >= 20) {
+      message = "¡Muy bien!";
+    } else if (score >= 15) {
+      message = "¡Buen esfuerzo!";
+    }
+
+    root.appendChild(
+      make("h2", message, "center")
+    );
+
+    root.appendChild(
+      make("p", "Terminaste tu práctica de Lenguaje.",
+        "center")
+    );
+
+    const actions = make("div", undefined, "actions");
+
+    actions.appendChild(
+      button("Revisar respuestas", showReview, true)
+    );
+
+    actions.appendChild(
+      button("Intentar de nuevo", () => {
+        current = 0;
+        answers = {};
+        showQuestion();
+      })
+    );
+
+    root.appendChild(actions);
+  }
+
+  function showReview() {
+    root.replaceChildren();
+
+    root.appendChild(
+      make("h2", "Revisa tus respuestas")
+    );
+
+    questions.forEach((q, i) => {
+      const correct = answers[i] === q.answer;
+      const item = make("div", undefined, "review-item");
+
+      item.appendChild(
+        make("strong",
+          (correct ? "✓ " : "✗ ") +
+          (i + 1) + ". " + q.q)
+      );
+
+      item.appendChild(
+        make("div",
+          "Tu respuesta: " + q.options[answers[i]])
+      );
+
+      item.appendChild(
+        make("div",
+          "Respuesta correcta: " + q.options[q.answer])
+      );
+
+      root.appendChild(item);
+    });
+
+    const actions = make("div", undefined, "actions");
+
+    actions.appendChild(
+      button("Volver al puntaje", showResults, true)
+    );
+
+    actions.appendChild(
+      button("Intentar de nuevo", () => {
+        current = 0;
+        answers = {};
+        showQuestion();
+      })
+    );
+
+    root.appendChild(actions);
+  }
+
+  showQuestion();
+})();
+</script>
+</body>
+</html>
