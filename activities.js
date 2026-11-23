@@ -18,6 +18,7 @@ window.ESCUELA_ACTIVITIES = [
     shadow: "#0a4e32",
     activities: [
       { title: "Estados de la materia", href: "ciencias/estados-de-la-materia.html", detail: "Materia, masa, volumen y estados" },
+      { title: "TALLER N.º 1. Cambios de la materia", href: "ciencias/cambios-de-la-materia.html", detail: "Cambio físico o químico" },
     ],
   },
   {
