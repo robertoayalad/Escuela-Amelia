@@ -6,19 +6,33 @@
 //    { title: "Sumas hasta 20", href: "matematicas/sumas.html" },
 //
 // detail es opcional (un subtítulo corto).
-// Colores de cada clase: esmeralda, escarlata y oro, azul y bronce,
-// amarillo y negro, y noche con oro.
+// Ciencias Naturales y Estudios Sociales son las clases en español;
+// Science y Social Studies son las clases en inglés (van justo después).
+// Las páginas de Science siguen en ciencias/ para no cambiar las direcciones.
+// Colores de cada clase: esmeralda, cerceta, escarlata y oro, azul y bronce,
+// amarillo y negro, noche con oro, y arcilla.
+//
+// Apps para descargar: una línea en ESCUELA_APPS y el archivo en apps/.
 
 window.ESCUELA_ACTIVITIES = [
   {
     id: "ciencias",
-    name: "Ciencias / Science",
+    name: "Ciencias Naturales",
     color: "#0e6b45",
     tint: "#e7f6ee",
     shadow: "#0a4e32",
     activities: [
-      { title: "Estados de la materia", href: "ciencias/estados-de-la-materia.html", detail: "Materia, masa, volumen y estados" },
       { title: "TALLER N.º 1. Cambios de la materia", href: "ciencias/cambios-de-la-materia.html", detail: "Cambio físico o químico" },
+    ],
+  },
+  {
+    id: "science",
+    name: "Science",
+    color: "#0b6e82",
+    tint: "#e3f4f6",
+    shadow: "#084c59",
+    activities: [
+      { title: "States of Matter", href: "ciencias/estados-de-la-materia.html", detail: "Matter, mass, volume and states" },
     ],
   },
   {
@@ -54,5 +68,23 @@ window.ESCUELA_ACTIVITIES = [
     tint: "#f7f0e4",
     shadow: "#c9a227",
     activities: [],
+  },
+  {
+    id: "social-studies",
+    name: "Social Studies",
+    color: "#8c3f22",
+    tint: "#f8eee6",
+    shadow: "#5e2a16",
+    activities: [],
+  },
+];
+
+window.ESCUELA_APPS = [
+  {
+    title: "Deletreo Francés — versión 1.3",
+    detail: "Novedad: en Dictado puedes elegir si las palabras salen en orden o en desorden.",
+    note: "Para la tablet Android. Se instala encima de la versión anterior.",
+    href: "apps/DeletreoFrances-1.3.apk",
+    download: "DeletreoFrances-1.3.apk",
   },
 ];

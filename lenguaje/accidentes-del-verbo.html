@@ -102,6 +102,13 @@
       gap: 10px;
       margin-top: 22px;
     }
+    #lenguaje-quiz .results-actions {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    #lenguaje-quiz .results-actions .btn {
+      flex: 1 1 220px;
+    }
     #lenguaje-quiz .btn {
       border: none;
       background: #2869c5;
@@ -456,10 +463,20 @@
     }
   ];
 
+  let round = questions;
+  let isRetry = false;
   let current = 0;
   let answers = {};
 
   const root = document.getElementById("quiz-content");
+
+  function begin(list, retry) {
+    round = list;
+    isRetry = !!retry;
+    current = 0;
+    answers = {};
+    showQuestion();
+  }
 
   function make(tag, text, className) {
     const el = document.createElement(tag);
@@ -480,20 +497,20 @@
   function showQuestion() {
     root.replaceChildren();
 
-    const q = questions[current];
+    const q = round[current];
     const selected = answers[current];
 
     root.appendChild(
       make("div",
         "Pregunta " + (current + 1) +
-        " de " + questions.length,
+        " de " + round.length,
         "category")
     );
 
     const progress = make("div", undefined, "progress");
     const bar = make("div", undefined, "bar");
     bar.style.width =
-      ((current + 1) / questions.length * 100) + "%";
+      ((current + 1) / round.length * 100) + "%";
     progress.appendChild(bar);
     root.appendChild(progress);
 
@@ -542,11 +559,11 @@
 
     actions.appendChild(
       button(
-        current === questions.length - 1
+        current === round.length - 1
           ? "Ver mi puntaje"
           : "Siguiente",
         () => {
-          if (current === questions.length - 1) {
+          if (current === round.length - 1) {
             showResults();
           } else {
             current++;
@@ -565,17 +582,21 @@
     root.replaceChildren();
 
     let score = 0;
-    questions.forEach((q, i) => {
+    const missed = [];
+    round.forEach((q, i) => {
       if (answers[i] === q.answer) score++;
+      else missed.push(q);
     });
 
     root.appendChild(
-      make("div", score + " / " + questions.length, "score")
+      make("div", score + " / " + round.length, "score")
     );
 
     let message = "¡Sigue practicando!";
-    if (score === questions.length) {
-      message = "¡Excelente! ¡Puntaje perfecto!";
+    if (score === round.length) {
+      message = isRetry
+        ? "¡Lo lograste! Corregiste todas las que te habías equivocado."
+        : "¡Excelente! ¡Puntaje perfecto!";
     } else if (score >= 20) {
       message = "¡Muy bien!";
     } else if (score >= 15) {
@@ -591,7 +612,16 @@
         "center")
     );
 
-    const actions = make("div", undefined, "actions");
+    const actions = make("div", undefined,
+      "actions" + (missed.length > 0 ? " results-actions" : ""));
+
+    if (missed.length > 0) {
+      actions.appendChild(
+        button("Repetir las que me equivoqué", () => {
+          begin(missed, true);
+        })
+      );
+    }
 
     actions.appendChild(
       button("Revisar respuestas", showReview, true)
@@ -599,9 +629,7 @@
 
     actions.appendChild(
       button("Intentar de nuevo", () => {
-        current = 0;
-        answers = {};
-        showQuestion();
+        begin(questions, false);
       })
     );
 
@@ -615,7 +643,7 @@
       make("h2", "Revisa tus respuestas")
     );
 
-    questions.forEach((q, i) => {
+    round.forEach((q, i) => {
       const correct = answers[i] === q.answer;
       const item = make("div", undefined, "review-item");
 
@@ -646,16 +674,14 @@
 
     actions.appendChild(
       button("Intentar de nuevo", () => {
-        current = 0;
-        answers = {};
-        showQuestion();
+        begin(questions, false);
       })
     );
 
     root.appendChild(actions);
   }
 
-  showQuestion();
+  begin(questions, false);
 })();
 </script>
 </body>

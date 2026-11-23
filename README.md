@@ -12,11 +12,11 @@ En la tablet Android: Chrome → menú → **Añadir a pantalla de inicio**. El 
 
 1. Crea el archivo HTML dentro de la carpeta de la materia:
 
-   - Ciencias / Science → `ciencias/`
+   - Ciencias Naturales y Science → `ciencias/` (Science es la clase en inglés; no cambies las direcciones ya publicadas)
    - Matemáticas → `matematicas/`
    - Inglés → `ingles/`
    - Lenguaje → `lenguaje/`
-   - Estudios Sociales → `estudios-sociales/`
+   - Estudios Sociales y Social Studies → `estudios-sociales/` (Social Studies es la clase en inglés)
 
 2. Abre `activities.js` y agrega **una línea** en `activities` de esa materia:
 
@@ -33,6 +33,14 @@ En la tablet Android: Chrome → menú → **Añadir a pantalla de inicio**. El 
 3. Para volver al inicio desde una actividad que está en una carpeta, enlaza a `../index.html`. Puedes copiar la barra de «← Volver al inicio» de `ciencias/estados-de-la-materia.html` (usa `actividad.css`).
 
 4. Sube los cambios a `main`. En un momento la actividad aparece en la tarjeta de la materia. Si `activities` está vacío, el inicio muestra «Próximamente».
+
+## Cómo agregar una aplicación
+
+La sección «Apps para descargar» sale de `window.ESCUELA_APPS` en `activities.js`. Para una versión nueva, sube el archivo a `apps/` y cambia (o añade) una línea:
+
+```js
+{ title: "Deletreo Francés — versión 1.4", detail: "Qué hay de nuevo.", note: "Para la tablet Android.", href: "apps/DeletreoFrances-1.4.apk", download: "DeletreoFrances-1.4.apk" },
+```
 
 ## Publicar en GitHub Pages
 
