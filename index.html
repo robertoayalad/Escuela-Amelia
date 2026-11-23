@@ -122,6 +122,12 @@
     <main id="materias" class="materias" aria-live="polite">
       <noscript><p class="aviso">Activa JavaScript para ver las materias.</p></noscript>
     </main>
+
+    <section id="descargas" class="descargas" hidden>
+      <h2>Apps para descargar</h2>
+      <div id="descargas-lista"></div>
+    </section>
+
     <p class="pie">Toca una actividad para empezar.</p>
   </div>
 
@@ -131,11 +137,13 @@
       var NS = "http://www.w3.org/2000/svg";
       var root = document.getElementById("materias");
       var motivos = {
-        ciencias: true,
-        matematicas: true,
-        ingles: true,
-        lenguaje: true,
-        "estudios-sociales": true
+        ciencias: "ciencias",
+        science: "ciencias",
+        matematicas: "matematicas",
+        ingles: "ingles",
+        lenguaje: "lenguaje",
+        "estudios-sociales": "estudios-sociales",
+        "social-studies": "estudios-sociales"
       };
 
       function aviso(texto) {
@@ -151,7 +159,7 @@
         svg.setAttribute("viewBox", "0 0 64 64");
         svg.setAttribute("aria-hidden", "true");
         var use = document.createElementNS(NS, "use");
-        var clave = motivos[id] ? id : "estrella";
+        var clave = motivos[id] || "estrella";
         use.setAttribute("href", "#motivo-" + clave);
         svg.appendChild(use);
         return svg;
@@ -221,10 +229,60 @@
         });
       }
 
+      function renderApps() {
+        var section = document.getElementById("descargas");
+        var lista = document.getElementById("descargas-lista");
+        var apps = window.ESCUELA_APPS;
+        if (!section || !lista || !Array.isArray(apps)) return;
+
+        apps.forEach(function (app) {
+          if (!app || !app.title || !app.href) return;
+
+          var tarjeta = document.createElement("article");
+          tarjeta.className = "descarga";
+
+          var titulo = document.createElement("h3");
+          titulo.className = "descarga-titulo";
+          titulo.textContent = app.title;
+          tarjeta.appendChild(titulo);
+
+          if (app.detail) {
+            var detalle = document.createElement("p");
+            detalle.className = "descarga-detalle";
+            detalle.textContent = app.detail;
+            tarjeta.appendChild(detalle);
+          }
+
+          if (app.note) {
+            var nota = document.createElement("p");
+            nota.className = "descarga-nota";
+            nota.textContent = app.note;
+            tarjeta.appendChild(nota);
+          }
+
+          var enlace = document.createElement("a");
+          enlace.className = "descarga-boton";
+          enlace.href = app.href;
+          if (app.download) enlace.setAttribute("download", app.download);
+          enlace.textContent = "Descargar";
+          tarjeta.appendChild(enlace);
+
+          lista.appendChild(tarjeta);
+        });
+
+        if (lista.children.length > 0) section.hidden = false;
+      }
+
       try {
         render();
       } catch (error) {
         aviso("No se pudieron cargar las materias.");
+      }
+
+      try {
+        renderApps();
+      } catch (error) {
+        aviso("No se pudieron cargar las aplicaciones.");
       }
 
       if ("serviceWorker" in navigator) {
