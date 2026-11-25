@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Taller: Cambios físicos y químicos</title>
+  <link rel="stylesheet" href="../actividad.css">
+</head>
+<body style="margin:0;background:#f4f7fb">
+<nav class="portal-volver" aria-label="Inicio"><a href="../index.html"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 64 64" aria-hidden="true"><polygon points="36,4 14,36 30,36 22,60 54,26 36,28" fill="#c8922a"/></svg>← Volver al inicio</a></nav>
+
+<div id="taller-quiz">
+  <style>
+    #taller-quiz {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 20px;
+      color: #24344d;
+      box-sizing: border-box;
+    }
+    #taller-quiz * { box-sizing: border-box; }
+    #taller-quiz .panel {
+      background: #fff;
+      border: 1px solid #dce5f2;
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 4px 16px #20305012;
+    }
+    #taller-quiz h2 {
+      text-align: center;
+      color: #2059a6;
+      margin: 0 0 8px;
+    }
+    #taller-quiz .subtitle {
+      text-align: center;
+      color: #63748a;
+      margin-bottom: 22px;
+    }
+    #taller-quiz .highlight {
+      background: #fff6d8;
+      border: 2px solid #e2b340;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin: -6px 0 22px;
+      line-height: 1.5;
+      font-weight: bold;
+      text-align: center;
+      color: #3a2712;
+    }
+    #taller-quiz .progress {
+      height: 10px;
+      background: #e7edf7;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 12px 0 24px;
+    }
+    #taller-quiz .bar {
+      height: 100%;
+      background: #4385e6;
+      width: 0%;
+      transition: width .25s;
+    }
+    #taller-quiz .category {
+      color: #2762ad;
+      font-size: 13px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    #taller-quiz .question {
+      font-size: 21px;
+      font-weight: bold;
+      line-height: 1.4;
+      margin: 18px 0;
+    }
+    #taller-quiz .hint {
+      color: #63748a;
+      margin: -6px 0 12px;
+      line-height: 1.45;
+    }
+    #taller-quiz .nota {
+      color: #63748a;
+      margin: 14px 0 0;
+      line-height: 1.45;
+    }
+    #taller-quiz .story {
+      background: #f7faff;
+      border-left: 4px solid #4385e6;
+      border-radius: 12px;
+      padding: 12px 14px;
+      line-height: 1.5;
+      margin-top: 14px;
+    }
+    #taller-quiz .story p { margin: 8px 0 0; }
+    #taller-quiz .option {
+      display: block;
+      width: 100%;
+      min-height: 52px;
+      padding: 15px;
+      margin: 10px 0;
+      background: #f7faff;
+      border: 2px solid #dce5f2;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 17px;
+      font-family: inherit;
+      line-height: 1.4;
+      color: #24344d;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    #taller-quiz .option:hover { border-color: #4385e6; }
+    #taller-quiz .option.picked {
+      background: #e7f0ff;
+      border-color: #4385e6;
+    }
+    #taller-quiz .correct {
+      background: #e8f8ec;
+      border-color: #29a45c;
+    }
+    #taller-quiz .wrong {
+      background: #fff0f0;
+      border-color: #df5555;
+    }
+    #taller-quiz .option.correct:hover { border-color: #29a45c; }
+    #taller-quiz .option.wrong:hover { border-color: #df5555; }
+    #taller-quiz .feedback {
+      padding: 14px;
+      border-radius: 12px;
+      background: #f0f5ff;
+      margin-top: 18px;
+      line-height: 1.5;
+    }
+    #taller-quiz .feedback.ok {
+      background: #e8f8ec;
+      border: 2px solid #29a45c;
+    }
+    #taller-quiz .feedback.no {
+      background: #fff6f6;
+      border: 2px solid #df5555;
+    }
+    #taller-quiz .feedback p { margin: 8px 0 0; }
+    #taller-quiz .feedback .estado { margin: 0; font-weight: bold; }
+    #taller-quiz .notebook {
+      background: #fff6d8;
+      border: 2px solid #e2b340;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+    #taller-quiz .actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 22px;
+    }
+    #taller-quiz .results-actions {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    #taller-quiz .results-actions .btn { flex: 1 1 220px; }
+    #taller-quiz .btn {
+      border: none;
+      background: #2869c5;
+      color: white;
+      min-height: 48px;
+      padding: 13px 20px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-family: inherit;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    #taller-quiz .btn:disabled {
+      background: #aab8cb;
+      cursor: default;
+    }
+    #taller-quiz .secondary {
+      background: #eaf0f8;
+      color: #24344d;
+    }
+    #taller-quiz .score {
+      text-align: center;
+      font-size: 48px;
+      color: #2059a6;
+      font-weight: bold;
+      margin: 24px 0 10px;
+    }
+    #taller-quiz .center { text-align: center; }
+    #taller-quiz .review-item {
+      border-bottom: 1px solid #e5eaf2;
+      padding: 12px 0;
+      line-height: 1.5;
+    }
+    #taller-quiz .bloque-titulo {
+      margin: 18px 0 8px;
+      color: #2059a6;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    #taller-quiz .modelo-ol { margin: 0 0 4px; padding-left: 22px; line-height: 1.45; }
+    #taller-quiz .modelo-ol li { margin: 4px 0; }
+    #taller-quiz .venn-stage {
+      position: relative;
+      width: 100%;
+      max-width: 560px;
+      height: 360px;
+      margin: 8px auto 4px;
+    }
+    #taller-quiz .circulo {
+      position: absolute;
+      top: 24px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+    }
+    #taller-quiz .circulo.fisico {
+      left: 0;
+      background: rgba(67, 133, 230, 0.28);
+      border: 3px solid #4385e6;
+    }
+    #taller-quiz .circulo.quimico {
+      right: 0;
+      background: rgba(224, 144, 58, 0.32);
+      border: 3px solid #e0903a;
+    }
+    #taller-quiz .zona {
+      position: absolute;
+      top: 108px;
+      width: 138px;
+      font-size: 13px;
+      line-height: 1.35;
+      font-weight: bold;
+    }
+    #taller-quiz .zona .frase { display: block; margin-top: 6px; font-weight: normal; }
+    #taller-quiz .idea-card {
+      background: #fff;
+      border: 3px dashed #4385e6;
+      border-radius: 16px;
+      padding: 18px;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      line-height: 1.4;
+      margin: 0 0 8px;
+    }
+    #taller-quiz .zona.izquierda { left: 18px; color: #1d4e89; }
+    #taller-quiz .zona.derecha { right: 18px; color: #8a4b12; }
+    #taller-quiz .zona.medio {
+      left: 50%;
+      top: 138px;
+      width: 116px;
+      transform: translateX(-50%);
+      text-align: center;
+      color: #3a2712;
+    }
+    #taller-quiz .zona-titulo {
+      font-size: 12px;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    #taller-quiz .ideas {
+      display: grid;
+      gap: 10px;
+    }
+    #taller-quiz .idea {
+      border: 2px solid #d5e4f7;
+      background: #f7faff;
+      border-radius: 14px;
+      padding: 12px;
+      line-height: 1.45;
+    }
+    #taller-quiz .idea.quim {
+      background: #fff8f2;
+      border-color: #f3d7c0;
+    }
+    #taller-quiz .idea p { margin: 0; }
+    #taller-quiz .escena {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    #taller-quiz .emoji { font-size: 40px; line-height: 1; }
+    #taller-quiz .hielo {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      background: linear-gradient(160deg, #ffffff, #b9dcff 55%, #7eb6ef);
+      border: 2px solid #5b97d6;
+      box-shadow: inset -6px -6px 0 #ffffff88;
+    }
+    #taller-quiz .gota {
+      width: 18px;
+      height: 18px;
+      background: #4aa3e8;
+      border-radius: 0 50% 50% 50%;
+      transform: rotate(45deg);
+    }
+    #taller-quiz .fosforo {
+      width: 10px;
+      height: 46px;
+      margin-top: 16px;
+      background: #f0d7a2;
+      border-radius: 2px;
+      position: relative;
+    }
+    #taller-quiz .fosforo::before {
+      content: "";
+      position: absolute;
+      left: -9px;
+      top: -22px;
+      width: 28px;
+      height: 30px;
+      background: radial-gradient(circle at 50% 72%, #fff4c2, #ffb703 38%, #e85d04 64%, rgba(232, 93, 4, 0) 72%);
+    }
+    #taller-quiz .fosforo::after {
+      content: "";
+      position: absolute;
+      left: -2px;
+      top: -2px;
+      width: 14px;
+      height: 12px;
+      background: #c0392b;
+      border-radius: 50% 50% 40% 40%;
+    }
+    @media (min-width: 640px) {
+      #taller-quiz .ideas { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      #taller-quiz .venn-stage { height: 250px; max-width: 320px; }
+      #taller-quiz .circulo { width: 190px; height: 190px; top: 8px; }
+      #taller-quiz .zona { top: 62px; width: 86px; font-size: 11px; }
+      #taller-quiz .zona.izquierda { left: 8px; }
+      #taller-quiz .zona.derecha { right: 8px; }
+      #taller-quiz .zona.medio { top: 78px; width: 78px; }
+      #taller-quiz .zona .frase { display: none; }
+    }
+    @media (max-width: 480px) {
+      #taller-quiz { padding: 8px; }
+      #taller-quiz .panel { padding: 16px; }
+      #taller-quiz .question { font-size: 18px; }
+      #taller-quiz .option { font-size: 15px; }
+    }
+  </style>
+
+  <div class="panel">
+    <h2>Taller: Cambios físicos y químicos</h2>
+    <div class="subtitle">
+      Ciencias Naturales, Quinto. Evaluación en clase. Después de cada respuesta verás cuál era la correcta y por qué.
+    </div>
+    <p class="highlight">Lo que decide no es si hay calor ni si cambia el color, sino si se forma una sustancia nueva.</p>
+    <div id="quiz-content" aria-live="polite"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const FQ = ["FÍSICO", "QUÍMICO"];
+  const VF = ["V. Verdadero", "F. Falso"];
+  const LUGARES = ["Cambio físico", "Cambio químico", "Semejanza (los dos)"];
+
+  const HISTORIA_PAN = "Sofía prepara pan. Primero mezcla harina, agua, sal y levadura. Después de un tiempo observa que la masa aumenta de tamaño y aparecen pequeñas burbujas. Finalmente, al hornearla, el pan cambia de color, olor, sabor y textura.";
+  const HISTORIA_SAL = "Mateo coloca sal en agua tibia y remueve hasta que deja de verla. Luego deja el recipiente cerca de una ventana durante varios días. El agua desaparece poco a poco y al final quedan cristales de sal en el fondo.";
+  const HISTORIA_COBRE = "Una pulsera de cobre permanece varios meses a la intemperie. Con el tiempo aparece sobre su superficie una capa verdosa diferente al color inicial del metal.";
+
+  const MODELOS = {
+    pan: "Hay cambio químico cuando la masa fermenta y aparecen burbujas de gas, y cuando se hornea, porque el pan cambia de color, olor, sabor y textura.",
+    sal: "La sal se puede recuperar porque nunca se transformó: solo se disolvió en el agua y, cuando el agua se evaporó, volvió a aparecer.",
+    cobre: "Es un cambio químico porque el cobre formó una capa verde, que es una sustancia nueva diferente al metal.",
+    torta: "La torta es un cambio químico porque al hornearla aparecen olor, color y textura nuevos: se formaron sustancias nuevas y no puede volver a ser masa cruda."
+  };
+
+  const VENN = {
+    fisico: [
+      "No se forma una sustancia nueva.",
+      "Cambia la forma, el tamaño o el estado."
+    ],
+    quimico: [
+      "Se forma una sustancia nueva con propiedades diferentes.",
+      "Hay pistas como burbujas de gas, olor nuevo, cambio de color, luz o calor."
+    ],
+    semejanza: [
+      "La materia cambia. Pasan en la vida diaria, en la cocina y en la naturaleza."
+    ]
+  };
+
+  function choice(part, type, q, options, answer, explanation, extra) {
+    const step = {
+      part: part,
+      type: type,
+      kind: "choice",
+      graded: true,
+      q: q,
+      options: options,
+      answer: answer,
+      explanation: explanation
+    };
+    if (extra && extra.lead) step.lead = extra.lead;
+    if (extra && extra.leadTitle) step.leadTitle = extra.leadTitle;
+    if (extra && extra.model) step.model = extra.model;
+    if (extra && extra.hint) step.hint = extra.hint;
+    return step;
+  }
+
+  function multi(part, type, q, options, answer, explanation, extra) {
+    const step = {
+      part: part,
+      type: type,
+      kind: "multi",
+      graded: true,
+      q: q,
+      hint: "Puedes marcar más de una. Cuando termines, toca Comprobar.",
+      options: options,
+      answer: answer,
+      explanation: explanation
+    };
+    if (extra && extra.lead) step.lead = extra.lead;
+    if (extra && extra.leadTitle) step.leadTitle = extra.leadTitle;
+    if (extra && extra.model) step.model = extra.model;
+    return step;
+  }
+
+  function tarjeta(numero, texto, lugar, explanation) {
+    return {
+      part: "5." + numero,
+      type: "5. Diagrama de Venn · tarjeta " + numero,
+      kind: "choice",
+      graded: true,
+      q: "¿Dónde va esta idea? «" + texto + "»",
+      card: texto,
+      hint: "Toca el lugar del diagrama donde la copiarías.",
+      options: LUGARES,
+      answer: lugar,
+      explanation: explanation
+    };
+  }
+
+  const steps = [
+    choice(
+      "1",
+      "1. Opción múltiple",
+      "Una barra de mantequilla se deja unos minutos cerca de una fuente de calor y se vuelve líquida. ¿Qué tipo de cambio ocurrió?",
+      [
+        "A. Cambio químico, porque apareció una sustancia nueva.",
+        "B. Cambio físico, porque solo cambió de estado.",
+        "C. Cambio químico, porque cambió de color.",
+        "D. No ocurrió ningún cambio."
+      ],
+      1,
+      "La mantequilla derretida sigue siendo mantequilla: solo pasó de sólida a líquida, y si la metes a la refri vuelve a ponerse sólida. Hubo calor y aun así es un cambio físico. La A no es, porque no apareció una sustancia nueva. La C no es, porque no cambió de color de verdad, y cambiar de color no siempre es químico. La D no es, porque sí cambió: cambió de estado."
+    ),
+
+    choice("2a", "2. Relaciona · a", "Un charco desaparece lentamente al sol.", FQ, 0,
+      "Es físico. El agua se evapora y se vuelve vapor. Sigue siendo agua; solo cambió de estado."),
+    choice("2b", "2. Relaciona · b", "Una masa con levadura aumenta de volumen.", FQ, 1,
+      "Es químico. La levadura (seres vivos diminutos) se come el azúcar de la masa y produce un gas nuevo que forma burbujas e infla la masa. Aparece una sustancia nueva."),
+    choice("2c", "2. Relaciona · c", "Se tritura una galleta hasta convertirla en migas.", FQ, 0,
+      "Es físico. Las migas siguen siendo galleta; solo cambió el tamaño y la forma."),
+    choice("2d", "2. Relaciona · d", "Una cuchara de plata se oscurece con el tiempo.", FQ, 1,
+      "Es químico. La plata reacciona con sustancias del aire y forma una capa oscura nueva (se «empaña»). Esa capa es una sustancia diferente a la plata."),
+
+    choice("3a", "3. Clasifica · a", "El perfume se evapora después de aplicarlo.", FQ, 0,
+      "Es físico. El perfume líquido pasa a gas (por eso lo hueles en el aire), pero sigue siendo perfume."),
+    choice("3b", "3. Clasifica · b", "Una rebanada de pan se tuesta y cambia de olor y color.", FQ, 1,
+      "Es químico. El calor forma sustancias nuevas en el pan (lo dorado y el olor a tostado). No se puede «destostar»."),
+    choice("3c", "3. Clasifica · c", "Se congela jugo para preparar una paleta.", FQ, 0,
+      "Es físico. El jugo solo pasa de líquido a sólido. Si se derrite, vuelve a ser jugo."),
+    choice("3d", "3. Clasifica · d", "Una banana se descompone después de varios días.", FQ, 1,
+      "Es químico. Los microbios la transforman en sustancias nuevas. Cambia el color, el olor y la textura, y no vuelve a ser fresca."),
+    choice("3e", "3. Clasifica · e", "Se aplasta una lata vacía.", FQ, 0,
+      "Es físico. Cambia solo la forma. Sigue siendo el mismo metal."),
+    choice("3f", "3. Clasifica · f", "La masa de pan fermenta antes de hornearla.", FQ, 1,
+      "Es químico. La levadura produce un gas nuevo y otras sustancias. Por eso la masa sube y huele distinto."),
+
+    choice("4a", "4. Verdadero o falso · a", "En un cambio físico la sustancia puede cambiar de forma, tamaño o estado sin transformarse en otra.", VF, 0,
+      "Es verdadero. Eso es justo lo que es un cambio físico."),
+    choice("4b", "4. Verdadero o falso · b", "Todo cambio de color significa necesariamente que ocurrió un cambio químico.", VF, 1,
+      "Es falso. El color puede cambiar sin formar una sustancia nueva, por ejemplo al mezclar pintura azul con amarilla o al mojar una tela. Para que sea químico tiene que formarse algo nuevo. Palabras como «todo» y «necesariamente» son pistas de que la frase puede ser falsa."),
+    choice("4c", "4. Verdadero o falso · c", "En un cambio químico pueden aparecer sustancias con propiedades diferentes.", VF, 0,
+      "Es verdadero. Eso es lo que define a un cambio químico, como la ceniza que sale de quemar papel."),
+    choice("4d", "4. Verdadero o falso · d", "La evaporación y la congelación son ejemplos de cambios físicos.", VF, 0,
+      "Es verdadero. En las dos solo cambia el estado del agua (de líquido a gas, y de líquido a sólido) y sigue siendo agua."),
+
+    tarjeta(1, "No se forma una sustancia nueva", 0,
+      "Va en cambio físico. Si no aparece nada nuevo, la sustancia sigue siendo la misma. Eso es un cambio físico."),
+    tarjeta(2, "Cambia la forma, el tamaño o el estado", 0,
+      "Va en cambio físico. La forma, el tamaño y el estado pueden cambiar y la sustancia sigue igual. Por ejemplo, un hielo que se derrite sigue siendo agua."),
+    tarjeta(3, "Casi siempre se puede volver atrás", 0,
+      "Va en cambio físico. El hielo se derrite y se puede congelar otra vez. Decimos «casi siempre» porque a veces, como al romper un vaso, los pedazos siguen siendo vidrio pero no se arman solos."),
+    tarjeta(4, "Se forma una sustancia nueva con propiedades diferentes", 1,
+      "Va en cambio químico. Eso es lo que lo define: aparece algo nuevo, con otras propiedades, como la ceniza que ya no es papel."),
+    tarjeta(5, "Hay pistas como burbujas de gas, olor nuevo, cambio de color, luz o calor", 1,
+      "Va en cambio químico. Esas pistas avisan que puede haberse formado algo nuevo. Ojo: el calor o el color, solos, no bastan. Lo que decide es si aparece una sustancia nueva."),
+    tarjeta(6, "Casi nunca se puede volver atrás", 1,
+      "Va en cambio químico. La ceniza no vuelve a ser papel y el pan tostado no se «destuesta». Por eso casi nunca se puede deshacer."),
+    tarjeta(7, "La materia cambia", 2,
+      "Va en la semejanza, en los dos. En el cambio físico la materia cambia de forma o de estado. En el químico se transforma en otra sustancia. En los dos, la materia cambia."),
+    tarjeta(8, "Pasan en la vida diaria, en la cocina y en la naturaleza", 2,
+      "Va en la semejanza, en los dos. Los dos ocurren todos los días: el hielo se derrite en la cocina (físico) y el pan se hornea (químico)."),
+
+    {
+      part: "5.modelo",
+      type: "5. Diagrama de Venn · modelo",
+      kind: "board",
+      board: "venn",
+      graded: false,
+      q: "Así queda el diagrama para tu cuaderno: 2 ideas en físico, 2 en químico y 1 semejanza."
+    },
+
+    multi(
+      "6a",
+      "6. La panadería · a",
+      "¿En qué momentos hay evidencias de un cambio químico?",
+      [
+        { text: "Cuando mezcla los ingredientes", why: "Mezclar solo junta las cosas. La harina, el agua, la sal y la levadura siguen ahí. Es un cambio físico." },
+        { text: "Cuando la masa crece y salen burbujas", why: "La levadura forma un gas nuevo. Por eso la masa crece y aparecen burbujas." },
+        { text: "Cuando se hornea y cambia de color, olor, sabor y textura", why: "El calor del horno forma sustancias nuevas. Por eso el pan cambia de color, olor, sabor y textura." }
+      ],
+      [1, 2],
+      "Hay cambio químico cuando aparece una sustancia nueva. Al mezclar, todo sigue igual y solo está junto. Al crecer con burbujas y al hornear, sí se forma algo nuevo.",
+      { lead: HISTORIA_PAN, leadTitle: "La panadería" }
+    ),
+    multi(
+      "6b",
+      "6. La panadería · b",
+      "Marca todas las evidencias de cambio químico. En el cuaderno escribirás dos; aquí marca cada una que sí lo sea.",
+      [
+        { text: "Aparecen burbujas de gas", why: "Esas burbujas son un gas nuevo que produce la levadura." },
+        { text: "La masa está en un recipiente", why: "El recipiente solo dice dónde está la masa. No muestra una sustancia nueva." },
+        { text: "Cambia el color", why: "Al hornear, el color nuevo va junto con sustancias nuevas. El color solo, sin algo nuevo, no bastaría." },
+        { text: "Sofía usa harina", why: "La harina es un ingrediente. Usarla no prueba que haya un cambio químico." },
+        { text: "Aparece un olor nuevo", why: "El olor a pan horneado no estaba en la masa cruda. Es una pista de sustancias nuevas." },
+        { text: "Cambian el sabor y la textura", why: "El pan ya no sabe ni se siente como la masa. Eso también muestra un cambio químico." }
+      ],
+      [0, 2, 4, 5],
+      "Una evidencia muestra que se formó algo nuevo: gas, color, olor, sabor o textura. El recipiente y la harina solo dicen dónde está la masa y qué usó Sofía.",
+      { lead: HISTORIA_PAN, leadTitle: "La panadería", model: MODELOS.pan }
+    ),
+
+    choice(
+      "7a",
+      "7. Los cristales de sal · a",
+      "¿Predomina un cambio físico o químico?",
+      FQ,
+      0,
+      "Predomina un cambio físico. Disolver la sal y evaporar el agua son cambios físicos. La sal sigue siendo sal y el agua sigue siendo agua. No se formó una sustancia nueva.",
+      { lead: HISTORIA_SAL, leadTitle: "Los cristales de sal" }
+    ),
+    choice(
+      "7b",
+      "7. Los cristales de sal · b",
+      "¿Por qué la sal puede recuperarse?",
+      [
+        "Porque la sal nunca se transformó: solo se disolvió y seguía en el agua; cuando el agua se evaporó, la sal volvió a aparecer.",
+        "Porque el agua se convirtió en sal.",
+        "Porque el sol fabricó sal nueva."
+      ],
+      0,
+      "La sal nunca se transformó: solo se disolvió y seguía en el agua. Cuando el agua se evaporó, la sal volvió a aparecer. Disolver y evaporar son cambios físicos. Si el agua sabía salada, la sal seguía ahí. El agua no se convirtió en sal, y el sol no fabricó sal nueva: solo ayudó a secar el agua.",
+      { lead: HISTORIA_SAL, leadTitle: "Los cristales de sal", model: MODELOS.sal }
+    ),
+
+    multi(
+      "8",
+      "8. Pulsera de cobre",
+      "¿Cuáles de estas son evidencias de un cambio químico?",
+      [
+        { text: "Cambio de color", why: "El cobre pasó de su color a una capa verdosa. Ese color nuevo es la capa, y la capa es otra sustancia." },
+        { text: "Aparición de una nueva capa", why: "Esa capa verde no estaba al principio." },
+        { text: "Cambio de forma", why: "La pulsera mantiene su forma. Cambiar de forma sería un cambio físico, y aquí ni siquiera pasó." },
+        { text: "Formación de una sustancia diferente", why: "La capa verde es una sustancia nueva. Se forma cuando el cobre reacciona con el aire y la humedad, como el óxido en el hierro." }
+      ],
+      [0, 1, 3],
+      "Es un cambio químico porque apareció una sustancia nueva: la capa verde. El color y la capa nueva son evidencias. La forma de la pulsera no cambió.",
+      { lead: HISTORIA_COBRE, leadTitle: "La pulsera de cobre", model: MODELOS.cobre }
+    ),
+
+    choice("9a", "9. Detective de la materia · a", "Se afila un lápiz y cambia su tamaño.", FQ, 0,
+      "Es físico. La madera y la mina solo cambian de tamaño y forma. Las virutas siguen siendo madera. La evidencia es el cambio de tamaño, y no se formó nada nuevo."),
+    choice("9b", "9. Detective de la materia · b", "Una torta se hornea y adquiere olor, color y textura nuevos.", FQ, 1,
+      "Es químico. El calor transforma los ingredientes en sustancias nuevas. No se puede volver a la mezcla cruda. Las evidencias son el olor, el color y la textura nuevos."),
+    choice("9c", "9. Detective de la materia · c", "El vapor de agua forma gotas en una tapa fría.", FQ, 0,
+      "Es físico. El vapor se enfría y vuelve a ser agua líquida (eso se llama condensación). Sigue siendo agua. La evidencia es que solo cambió de estado."),
+    choice("9d", "9. Detective de la materia · d", "Una hoja seca se descompone en el suelo con el paso del tiempo.", FQ, 1,
+      "Es químico. Los microbios la transforman en sustancias nuevas (tierra o abono). Cambian el color y la textura. La evidencia es que ya no es la misma hoja."),
+
+    {
+      part: "9.modelo",
+      type: "9. Detective · justifica una",
+      kind: "board",
+      board: "copy",
+      graded: false,
+      q: "Justifica una. Copia esta frase en tu cuaderno.",
+      model: MODELOS.torta
+    },
+
+    {
+      part: "10",
+      type: "10. Dibujo · no suma puntos",
+      kind: "board",
+      board: "draw",
+      graded: false,
+      q: "En tu cuaderno dibuja un cambio físico y un cambio químico. Aquí tienes ideas y las frases que puedes escribir debajo."
+    },
+    {
+      part: "10a",
+      type: "10. Dibujo · tu dibujo",
+      kind: "reflect",
+      graded: false,
+      q: "Mira tu dibujo: ¿se formó una sustancia nueva?",
+      hint: "Depende de lo que dibujaste. No suma puntos.",
+      options: [
+        { text: "Sí", note: "Si en tu dibujo apareció algo que antes no estaba (ceniza, óxido, un gas o un olor nuevo), es un cambio químico." },
+        { text: "No", note: "Si no apareció nada nuevo, tu dibujo muestra un cambio físico: la sustancia sigue siendo la misma." }
+      ]
+    },
+    {
+      part: "10b",
+      type: "10. Dibujo · tu dibujo",
+      kind: "reflect",
+      graded: false,
+      q: "Mira tu dibujo: ¿se puede volver atrás?",
+      hint: "Depende de lo que dibujaste. No suma puntos.",
+      options: [
+        { text: "Sí", note: "Si se puede deshacer, como congelar otra vez el agua derretida, es una pista de cambio físico." },
+        { text: "No", note: "Si no puede volver a ser como al principio, es una pista de cambio químico. El pan tostado no se «destuesta» y la ceniza no vuelve a ser un palo." }
+      ]
+    },
+    {
+      part: "10c",
+      type: "10. Dibujo · tu dibujo",
+      kind: "reflect",
+      graded: false,
+      q: "Mira tu dibujo: ¿hay olor, gas o color nuevo?",
+      hint: "Depende de lo que dibujaste. No suma puntos.",
+      options: [
+        { text: "Sí", note: "El olor nuevo, el gas o el color nuevo son pistas de cambio químico. El color solo no basta: lo que decide es si se formó una sustancia nueva. Con tus tres respuestas ya puedes decir si tu dibujo es físico o químico. Esta parte no suma puntos." },
+        { text: "No", note: "Si no hay olor, gas ni color nuevo, fíjate si solo cambió la forma, el tamaño o el estado. Si solo eso cambió, es físico. Esta parte no suma puntos." }
+      ]
+    }
+  ];
+
+  const DIBUJOS_FISICO = [
+    {
+      escena: "hielo",
+      texto: "Un cubo de hielo que se derrite. Cambió el estado (de sólido a líquido). No se formó una sustancia nueva: sigue siendo agua."
+    },
+    {
+      escena: "emoji",
+      emoji: "📄",
+      texto: "Arrugar una hoja de papel. Cambió la forma. Sigue siendo papel."
+    },
+    {
+      escena: "emoji",
+      emoji: "☀️💧",
+      texto: "Un charco que se seca al sol. El agua se volvió vapor y sigue siendo agua."
+    },
+    {
+      escena: "emoji",
+      emoji: "🖍️",
+      texto: "Partir un crayón. Cambiaron el tamaño y la forma. Los pedazos siguen siendo crayón."
+    }
+  ];
+
+  const DIBUJOS_QUIMICO = [
+    {
+      escena: "fosforo",
+      texto: "Un fósforo que se enciende (o un pan que se tuesta). Cambió el color y apareció humo y olor. Sí se formó una sustancia nueva (ceniza, humo)."
+    },
+    {
+      escena: "emoji",
+      emoji: "🍌",
+      texto: "Una banana que se pone negra y huele distinto. Los microbios formaron sustancias nuevas."
+    },
+    {
+      escena: "emoji",
+      emoji: "🔩",
+      texto: "Un clavo de hierro que se oxida. La capa anaranjada es una sustancia nueva."
+    },
+    {
+      escena: "emoji",
+      emoji: "🔥",
+      texto: "Un palo que se quema y queda ceniza. La ceniza y el humo son sustancias nuevas."
+    }
+  ];
+
+  let round = steps;
+  let isRetry = false;
+  let current = 0;
+  let answers = {};
+  let pending = {};
+
+  const root = document.getElementById("quiz-content");
+
+  function begin(list, retry) {
+    round = list;
+    isRetry = !!retry;
+    current = 0;
+    answers = {};
+    pending = {};
+    showStep();
+  }
+
+  function make(tag, text, className) {
+    const el = document.createElement(tag);
+    if (text !== undefined) el.textContent = text;
+    if (className) el.className = className;
+    return el;
+  }
+
+  function button(label, fn, secondary, disabled) {
+    const b = make("button", label, "btn" + (secondary ? " secondary" : ""));
+    b.type = "button";
+    b.disabled = !!disabled;
+    b.addEventListener("click", fn);
+    return b;
+  }
+
+  function optionLabel(option) {
+    return typeof option === "string" ? option : option.text;
+  }
+
+  function isRight(step, ans) {
+    if (!step.graded) return true;
+    if (ans === undefined) return false;
+    if (step.kind === "multi") {
+      if (!Array.isArray(ans) || ans.length !== step.answer.length) return false;
+      const chosen = ans.slice().sort(function (a, b) { return a - b; });
+      const expected = step.answer.slice().sort(function (a, b) { return a - b; });
+      for (let i = 0; i < expected.length; i++) {
+        if (chosen[i] !== expected[i]) return false;
+      }
+      return true;
+    }
+    return ans === step.answer;
+  }
+
+  function answerText(step, ans) {
+    if (ans === undefined) return "(sin responder)";
+    if (step.kind === "multi") {
+      if (!ans.length) return "(ninguna)";
+      return ans.map(function (i) { return step.options[i].text; }).join("; ");
+    }
+    return optionLabel(step.options[ans]);
+  }
+
+  function cerrar(text) {
+    if (/[.!?…»]$/.test(text)) return text;
+    return text + ".";
+  }
+
+  function correctAnswerText(step) {
+    if (step.kind === "multi") {
+      return step.answer.map(function (i) { return step.options[i].text; }).join("; ");
+    }
+    return optionLabel(step.options[step.answer]);
+  }
+
+  function missedSteps() {
+    const out = [];
+    round.forEach(function (step, i) {
+      if (step.graded && !isRight(step, answers[i])) out.push(step);
+    });
+    return out;
+  }
+
+  function showLead(step) {
+    if (!step.lead) return;
+    const box = make("div", undefined, "story");
+    if (step.leadTitle) box.appendChild(make("div", step.leadTitle, "category"));
+    box.appendChild(make("p", step.lead));
+    root.appendChild(box);
+  }
+
+  function showQuestionText(step) {
+    if (step.card) {
+      root.appendChild(make("div", "¿Dónde va esta idea?", "question"));
+      root.appendChild(make("div", step.card, "idea-card"));
+    } else {
+      root.appendChild(make("div", step.q, "question"));
+    }
+    if (step.hint) root.appendChild(make("p", step.hint, "hint"));
+  }
+
+  function renderButtons(step, selected) {
+    showQuestionText(step);
+    step.options.forEach(function (option, index) {
+      const b = make("button", optionLabel(option), "option");
+      b.type = "button";
+      if (selected !== undefined) {
+        b.disabled = true;
+        if (step.kind === "reflect") {
+          if (index === selected) b.classList.add("picked");
+        } else if (index === step.answer) {
+          b.classList.add("correct");
+        } else if (index === selected) {
+          b.classList.add("wrong");
+        }
+      }
+      b.addEventListener("click", function () {
+        if (answers[current] !== undefined) return;
+        answers[current] = index;
+        showStep();
+      });
+      root.appendChild(b);
+    });
+  }
+
+  function renderMulti(step, selected) {
+    showQuestionText(step);
+    const picks = selected || pending[current] || [];
+    step.options.forEach(function (option, index) {
+      const b = make("button", option.text, "option");
+      b.type = "button";
+      const chosen = picks.indexOf(index) !== -1;
+      const should = step.answer.indexOf(index) !== -1;
+      if (selected) {
+        b.disabled = true;
+        if (should) b.classList.add("correct");
+        else if (chosen) b.classList.add("wrong");
+      } else if (chosen) {
+        b.classList.add("picked");
+        b.setAttribute("aria-pressed", "true");
+      } else {
+        b.setAttribute("aria-pressed", "false");
+      }
+      b.addEventListener("click", function () {
+        if (answers[current] !== undefined) return;
+        const list = (pending[current] || []).slice();
+        const at = list.indexOf(index);
+        if (at === -1) list.push(index);
+        else list.splice(at, 1);
+        list.sort(function (a, b) { return a - b; });
+        pending[current] = list;
+        showStep();
+      });
+      root.appendChild(b);
+    });
+  }
+
+  function appendFrase(parent, titulo, frases) {
+    parent.appendChild(make("div", titulo, "bloque-titulo"));
+    const ol = make("ol", undefined, "modelo-ol");
+    frases.forEach(function (frase) {
+      ol.appendChild(make("li", frase));
+    });
+    parent.appendChild(ol);
+  }
+
+  function appendVenn(parent) {
+    const stage = make("div", undefined, "venn-stage");
+    stage.setAttribute("aria-hidden", "true");
+    stage.appendChild(make("div", undefined, "circulo fisico"));
+    stage.appendChild(make("div", undefined, "circulo quimico"));
+
+    const izquierda = make("div", undefined, "zona izquierda");
+    izquierda.appendChild(make("span", "Cambio físico", "zona-titulo"));
+    VENN.fisico.forEach(function (frase) {
+      izquierda.appendChild(make("span", frase, "frase"));
+    });
+    const medio = make("div", undefined, "zona medio");
+    medio.appendChild(make("span", "Semejanza", "zona-titulo"));
+    medio.appendChild(make("span", "La materia cambia.", "frase"));
+    const derecha = make("div", undefined, "zona derecha");
+    derecha.appendChild(make("span", "Cambio químico", "zona-titulo"));
+    derecha.appendChild(make("span", "Se forma una sustancia nueva.", "frase"));
+    derecha.appendChild(make("span", "Pistas: gas, olor, color, luz o calor.", "frase"));
+
+    stage.appendChild(izquierda);
+    stage.appendChild(medio);
+    stage.appendChild(derecha);
+    parent.appendChild(stage);
+
+    appendFrase(parent, "Cambio físico", VENN.fisico);
+    appendFrase(parent, "Cambio químico", VENN.quimico);
+    appendFrase(parent, "Semejanza (los dos)", VENN.semejanza);
+    parent.appendChild(make("p", "También anota: en físico, «Casi siempre se puede volver atrás». En químico, «Casi nunca se puede volver atrás».", "nota"));
+  }
+
+  function appendEscena(parent, idea) {
+    const escena = make("div", undefined, "escena");
+    escena.setAttribute("aria-hidden", "true");
+    switch (idea.escena) {
+      case "hielo":
+        escena.appendChild(make("span", undefined, "hielo"));
+        escena.appendChild(make("span", undefined, "gota"));
+        break;
+      case "fosforo":
+        escena.appendChild(make("span", undefined, "fosforo"));
+        break;
+      case "emoji":
+        escena.appendChild(make("span", idea.emoji, "emoji"));
+        break;
+      default: {
+        const desconocida = idea.escena;
+        throw new Error("Escena desconocida: " + desconocida);
+      }
+    }
+    parent.appendChild(escena);
+  }
+
+  function appendIdeas(parent, titulo, ideas, quim) {
+    parent.appendChild(make("div", titulo, "bloque-titulo"));
+    const grid = make("div", undefined, "ideas");
+    ideas.forEach(function (idea) {
+      const card = make("div", undefined, "idea" + (quim ? " quim" : ""));
+      appendEscena(card, idea);
+      card.appendChild(make("p", idea.texto));
+      grid.appendChild(card);
+    });
+    parent.appendChild(grid);
+  }
+
+  function renderBoard(step) {
+    showQuestionText(step);
+    switch (step.board) {
+      case "venn":
+        appendVenn(root);
+        break;
+      case "copy": {
+        const note = make("div", undefined, "notebook");
+        note.appendChild(document.createTextNode("«" + step.model + "»"));
+        root.appendChild(note);
+        break;
+      }
+      case "draw":
+        appendIdeas(root, "Cambio físico", DIBUJOS_FISICO, false);
+        appendIdeas(root, "Cambio químico", DIBUJOS_QUIMICO, true);
+        root.appendChild(make("p", "Después responde tres preguntas sobre tu propio dibujo. Esas no entran en el puntaje.", "hint"));
+        break;
+      default: {
+        const desconocido = step.board;
+        throw new Error("Pantalla desconocida: " + desconocido);
+      }
+    }
+  }
+
+  function addFeedback(step, ans) {
+    const box = make("div", undefined, "feedback");
+    if (step.kind === "reflect") {
+      box.appendChild(make("p", "Así puedes mirar tu dibujo", "estado"));
+      box.appendChild(make("p", step.options[ans].note));
+      root.appendChild(box);
+      return;
+    }
+
+    const ok = isRight(step, ans);
+    box.classList.add(ok ? "ok" : "no");
+    box.appendChild(make("p", ok ? "¡Correcto! ¡Muy bien!" : "¡Casi!", "estado"));
+
+    const correcta = make("p");
+    correcta.appendChild(make("strong", "Respuesta correcta: "));
+    correcta.appendChild(document.createTextNode(cerrar(correctAnswerText(step))));
+    box.appendChild(correcta);
+
+    const porque = make("p");
+    porque.appendChild(make("strong", "Por qué: "));
+    porque.appendChild(document.createTextNode(step.explanation));
+    box.appendChild(porque);
+
+    if (step.kind === "multi") {
+      step.options.forEach(function (opt, index) {
+        const si = step.answer.indexOf(index) !== -1;
+        const linea = make("p");
+        linea.appendChild(make("strong", si ? "Sí. " : "No. "));
+        linea.appendChild(document.createTextNode(opt.text + ". " + opt.why));
+        box.appendChild(linea);
+      });
+    }
+
+    if (step.model) {
+      const note = make("div", undefined, "notebook");
+      note.appendChild(make("strong", "Para tu cuaderno: "));
+      note.appendChild(document.createTextNode("«" + step.model + "»"));
+      box.appendChild(note);
+    }
+
+    root.appendChild(box);
+  }
+
+  function needsAnswer(step) {
+    return step.kind === "choice" || step.kind === "multi" || step.kind === "reflect";
+  }
+
+  function showStep() {
+    root.replaceChildren();
+    const step = round[current];
+    const selected = answers[current];
+
+    root.appendChild(make("div",
+      "Pregunta " + (current + 1) + " de " + round.length,
+      "category"));
+
+    const progress = make("div", undefined, "progress");
+    const bar = make("div", undefined, "bar");
+    bar.style.width = ((current + 1) / round.length * 100) + "%";
+    progress.appendChild(bar);
+    root.appendChild(progress);
+
+    if (isRetry) {
+      root.appendChild(make("div", "Repaso de las que me equivoqué", "category"));
+    }
+    root.appendChild(make("div", step.type, "category"));
+    showLead(step);
+
+    switch (step.kind) {
+      case "choice":
+      case "reflect":
+        renderButtons(step, selected);
+        break;
+      case "multi":
+        renderMulti(step, selected);
+        break;
+      case "board":
+        renderBoard(step);
+        break;
+      default: {
+        const desconocido = step.kind;
+        throw new Error("Tipo desconocido: " + desconocido);
+      }
+    }
+
+    if (selected !== undefined && step.kind !== "board") addFeedback(step, selected);
+
+    const actions = make("div", undefined, "actions");
+    actions.appendChild(button("Anterior", function () {
+      current--;
+      showStep();
+    }, true, current === 0));
+
+    let rightLabel;
+    let rightDisabled;
+    let rightFn;
+    if (step.kind === "multi" && selected === undefined) {
+      rightLabel = "Comprobar";
+      rightDisabled = !(pending[current] && pending[current].length);
+      rightFn = function () {
+        if (!pending[current] || !pending[current].length) return;
+        answers[current] = pending[current].slice();
+        showStep();
+      };
+    } else {
+      const last = current === round.length - 1;
+      rightLabel = last ? "Ver mi puntaje" : "Siguiente";
+      rightDisabled = needsAnswer(step) && selected === undefined;
+      rightFn = function () {
+        if (needsAnswer(step) && answers[current] === undefined) return;
+        if (last) showResults();
+        else {
+          current++;
+          showStep();
+        }
+      };
+    }
+    actions.appendChild(button(rightLabel, rightFn, false, rightDisabled));
+    root.appendChild(actions);
+
+    const feedback = root.querySelector(".feedback");
+    if (feedback && feedback.scrollIntoView) {
+      feedback.scrollIntoView({ block: "nearest" });
+    }
+  }
+
+  function showResults() {
+    root.replaceChildren();
+    let score = 0;
+    let total = 0;
+    round.forEach(function (step, i) {
+      if (!step.graded) return;
+      total++;
+      if (isRight(step, answers[i])) score++;
+    });
+    const missed = missedSteps();
+    const ratio = total === 0 ? 1 : score / total;
+
+    root.appendChild(make("div", score + " / " + total, "score"));
+
+    let message = "¡Sigue practicando!";
+    if (score === total) {
+      message = isRetry
+        ? "¡Lo lograste! Corregiste todas las que te habías equivocado."
+        : "¡Excelente! ¡Puntaje perfecto!";
+    } else if (ratio >= 0.8) {
+      message = "¡Muy bien!";
+    } else if (ratio >= 0.6) {
+      message = "¡Buen esfuerzo!";
+    }
+
+    root.appendChild(make("h2", message, "center"));
+    root.appendChild(make("p", "Terminaste el taller de cambios físicos y químicos.", "center"));
+    if (!isRetry) {
+      root.appendChild(make("p", "El dibujo no entra en el puntaje. En «Revisar respuestas» están las frases para tu cuaderno.", "center"));
+    }
+
+    const actions = make("div", undefined,
+      "actions" + (missed.length > 0 ? " results-actions" : ""));
+
+    if (missed.length > 0) {
+      actions.appendChild(button("Repetir las que me equivoqué", function () {
+        begin(missed, true);
+      }));
+    }
+    actions.appendChild(button("Revisar respuestas", showReview, true));
+    actions.appendChild(button("Intentar de nuevo", function () {
+      begin(steps, false);
+    }));
+    root.appendChild(actions);
+  }
+
+  function showReview() {
+    root.replaceChildren();
+    root.appendChild(make("h2", "Revisa las que te equivocaste"));
+
+    const missed = [];
+    round.forEach(function (step, i) {
+      if (step.graded && !isRight(step, answers[i])) {
+        missed.push({ step: step, ans: answers[i] });
+      }
+    });
+
+    if (missed.length === 0) {
+      root.appendChild(make("p", "¡No te equivocaste en ninguna! Puedes copiar abajo el diagrama y las frases.", "center"));
+    } else {
+      missed.forEach(function (item) {
+        const step = item.step;
+        const box = make("div", undefined, "review-item");
+        box.appendChild(make("strong", "✗ " + step.part + ". " + step.q.replace("\n", " ")));
+        box.appendChild(make("div", "Tu respuesta: " + answerText(step, item.ans)));
+        box.appendChild(make("div", "Respuesta correcta: " + correctAnswerText(step)));
+        box.appendChild(make("div", "Por qué: " + step.explanation));
+        root.appendChild(box);
+      });
+    }
+
+    root.appendChild(make("h2", "Para tu cuaderno"));
+    appendVenn(root);
+    [
+      ["La panadería", MODELOS.pan],
+      ["Los cristales de sal", MODELOS.sal],
+      ["La pulsera de cobre", MODELOS.cobre],
+      ["Justifica una (la torta)", MODELOS.torta]
+    ].forEach(function (par) {
+      const note = make("div", undefined, "notebook");
+      note.appendChild(make("strong", par[0] + ". "));
+      note.appendChild(document.createTextNode("«" + par[1] + "»"));
+      root.appendChild(note);
+    });
+
+    const actions = make("div", undefined, "actions");
+    actions.appendChild(button("Volver al puntaje", showResults, true));
+    actions.appendChild(button("Intentar de nuevo", function () {
+      begin(steps, false);
+    }));
+    root.appendChild(actions);
+  }
+
+  begin(steps, false);
+})();
+</script>
+</body>
+</html>

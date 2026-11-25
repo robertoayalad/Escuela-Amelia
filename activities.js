@@ -23,6 +23,7 @@ window.ESCUELA_ACTIVITIES = [
     shadow: "#0a4e32",
     activities: [
       { title: "TALLER N.º 1. Cambios de la materia", href: "ciencias/cambios-de-la-materia.html", detail: "Cambio físico o químico" },
+      { title: "Taller: Cambios físicos y químicos", href: "ciencias/taller-cambios-fisicos-quimicos.html", detail: "Evaluación en clase, 10 preguntas" },
     ],
   },
   {
