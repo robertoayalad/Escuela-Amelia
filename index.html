@@ -200,6 +200,10 @@
               var enlace = document.createElement("a");
               enlace.className = "actividad";
               enlace.href = actividad.href;
+              if (/^https?:\/\//i.test(actividad.href)) {
+                enlace.target = "_blank";
+                enlace.rel = "noopener noreferrer";
+              }
 
               var texto = document.createElement("span");
               var nombre = document.createElement("span");
