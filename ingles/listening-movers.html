@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Listening: Movers (5 partes)</title><link rel="stylesheet" href="../actividad.css">
+<style>
+  body { margin:0; background:#f4f7fb; }
+  #lm { font-family: Arial, sans-serif; max-width: 960px; margin: 0 auto; padding: 20px; color:#24344d; font-size: 20px; line-height: 1.45; box-sizing:border-box; }
+  #lm * { box-sizing:border-box; }
+  #lm h1 { color:#1d4e89; text-align:center; font-size:34px; margin:10px 0 6px; }
+  #lm .sub { text-align:center; color:#5b6b80; margin:0 0 18px; }
+  #lm .aviso { background:#fff6df; border:2px solid #e2b340; border-radius:14px; padding:14px 18px; font-size:21px; margin-bottom:18px; }
+  #lm .total { position:sticky; top:0; z-index:5; background:#1d4e89; color:#fff; border-radius:14px; padding:12px 18px; font-size:22px; font-weight:bold; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:22px; box-shadow:0 4px 12px #1d4e8940; }
+  #lm .total span.parts { font-weight:normal; font-size:18px; }
+  #lm .part { background:#fff; border:1px solid #dce5f2; border-radius:18px; padding:22px; margin-bottom:28px; box-shadow:0 4px 16px #20305012; }
+  #lm .part h2 { color:#1d4e89; margin:0 0 4px; font-size:28px; }
+  #lm .instr { margin:4px 0 4px; font-weight:bold; }
+  #lm .instr-es { margin:0 0 14px; color:#5b6b80; font-size:18px; }
+  #lm .pic { position:relative; width:100%; margin:0 auto; }
+  #lm .pic img { display:block; width:100%; height:auto; border-radius:10px; border:1px solid #dce5f2; }
+  #lm .pic.narrow { max-width:620px; }
+  #lm .player { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:16px 0 18px; padding:14px; background:#eef4fc; border-radius:14px; }
+  #lm .play { font-size:24px; font-weight:bold; background:#1d4e89; color:#fff; border:none; border-radius:14px; padding:16px 28px; cursor:pointer; min-width:190px; }
+  #lm .play:hover { background:#163d6c; }
+  #lm .restart { font-size:18px; background:#fff; color:#1d4e89; border:2px solid #1d4e89; border-radius:12px; padding:12px 16px; cursor:pointer; }
+  #lm audio { flex:1 1 260px; min-width:240px; }
+  #lm .q { display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:10px 12px; margin:8px 0; border-radius:12px; border:2px solid transparent; }
+  #lm .q .num { font-weight:bold; min-width:34px; }
+  #lm .q .label { min-width:200px; }
+  #lm select, #lm input[type=text] { font-size:21px; padding:8px 10px; border:2px solid #b8c6da; border-radius:10px; background:#fff; color:#24344d; }
+  #lm input[type=text] { width:240px; }
+  #lm .q.ok { background:#e8f8ec; border-color:#29a45c; }
+  #lm .q.bad { background:#fff0f0; border-color:#df5555; }
+  #lm .fb { flex-basis:100%; font-size:18px; display:none; }
+  #lm .q.ok .fb, #lm .q.bad .fb { display:block; }
+  #lm .q.ok .fb { color:#1f7a45; }
+  #lm .q.bad .fb { color:#a33030; }
+  #lm .ex { color:#5b6b80; font-style:italic; }
+  #lm .actions { display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-top:16px; }
+  #lm .btn { font-size:20px; border:none; border-radius:12px; padding:14px 24px; cursor:pointer; background:#2e7d4f; color:#fff; font-weight:bold; }
+  #lm .btn.sec { background:#eaf0f8; color:#24344d; font-weight:normal; }
+  #lm .score { font-size:22px; font-weight:bold; color:#1d4e89; }
+  #lm .msg { flex-basis:100%; font-size:19px; }
+  #lm .tag { position:absolute; transform:translate(-50%,-50%); background:#ffde59; color:#222; border:2px solid #222; border-radius:50%; width:34px; height:34px; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:18px; box-shadow:1px 1px 0 #222; }
+  #lm .tag.exa { background:#cfe3ff; }
+  #lm .p4q { border:1px solid #dce5f2; border-radius:14px; padding:12px; margin:14px 0; }
+  #lm .p4q img { width:100%; max-width:620px; display:block; margin:0 auto; border-radius:8px; }
+  #lm .choices { display:flex; gap:12px; justify-content:center; margin-top:10px; }
+  #lm .choice { font-size:22px; font-weight:bold; width:84px; padding:12px 0; border-radius:12px; border:3px solid #b8c6da; background:#fff; cursor:pointer; color:#24344d; }
+  #lm .choice.sel { border-color:#1d4e89; background:#dbe8fa; }
+  #lm .p4q.ok { background:#e8f8ec; border-color:#29a45c; }
+  #lm .p4q.bad { background:#fff0f0; border-color:#df5555; }
+  #lm .p4q .fb { text-align:center; }
+  #lm .p4q.ok .fb, #lm .p4q.bad .fb { display:block; }
+  #lm .p4q.ok .fb { color:#1f7a45; } #lm .p4q.bad .fb { color:#a33030; }
+  /* Parte 5 */
+  #lm .palette { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:10px 0 14px; }
+  #lm .sw { width:58px; height:58px; border-radius:50%; border:3px solid #fff; box-shadow:0 0 0 2px #8a97a8; cursor:pointer; }
+  #lm .sw.sel { box-shadow:0 0 0 5px #1d4e89; }
+  #lm .sw.borrar { background:#fff; font-size:14px; color:#333; width:auto; border-radius:12px; padding:0 12px; height:58px; }
+  #lm .hs { position:absolute; cursor:pointer; border-radius:40%; mix-blend-mode:multiply; }
+  #lm .hs:hover { outline:2px dashed #1d4e8988; }
+  #lm .boatword { position:absolute; font-family:"Comic Sans MS","Chalkboard SE",Arial,sans-serif; font-weight:bold; color:#1d2a6b; transform:translate(-50%,-50%); pointer-events:none; font-size:22px; letter-spacing:1px; }
+  #lm .hint { font-size:17px; color:#5b6b80; }
+  #lm .back-top { text-align:center; font-size:18px; color:#5b6b80; margin:10px 0 30px; }
+</style></head><body>
+<nav class="portal-volver" aria-label="Inicio"><a href="../index.html"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 64 64" aria-hidden="true"><polygon points="36,4 14,36 30,36 22,60 54,26 36,28" fill="#c8922a"/></svg>← Volver al inicio</a></nav>
+
+<div id="lm">
+  <h1>Listening: Movers</h1>
+  <p class="sub">Práctica de escucha en inglés. 5 partes, 5 preguntas en cada una.</p>
+  <div class="aviso"><strong>Al terminar, toma una captura del puntaje.</strong> La profesora pidió compartir el puntaje. Cada parte tiene su botón <strong>▶ Escuchar</strong> debajo del dibujo y puedes escuchar el audio todas las veces que quieras. Después de contestar, pulsa <strong>Revisar</strong>. Si algo sale en rojo, escucha otra vez, cambia tu respuesta y vuelve a pulsar <strong>Revisar</strong>.</div>
+  <div class="total" id="total">Puntaje total: <span id="totalNum">0 / 25</span> <span class="parts" id="totalParts">Parte 1: – · Parte 2: – · Parte 3: – · Parte 4: – · Parte 5: –</span></div>
+
+  <!-- PARTE 1 -->
+  <section class="part" id="p1">
+    <h2>Part 1</h2>
+    <p class="instr">Listen and draw lines. There is one example.</p>
+    <p class="instr-es">Escucha y une cada nombre con la persona del dibujo. Cada persona tiene una letra amarilla. Ejemplo: Vicky es la niña que dibuja la casa en la pizarra (letra D). Un nombre sobra.</p>
+    <div class="pic narrow" id="p1pic"><img src="listening-movers/part1.jpg" alt="Classroom picture with children"></div>
+    <div class="player" data-audio="listening-movers/part1.mp3"></div>
+    <div class="qs" id="p1qs"></div>
+    <div class="actions"><button class="btn" data-check="1">Revisar</button><button class="btn sec" data-reset="1">Volver a intentar</button><span class="score" id="s1"></span><div class="msg" id="m1"></div></div>
+  </section>
+
+  <!-- PARTE 2 -->
+  <section class="part" id="p2">
+    <h2>Part 2</h2>
+    <p class="instr">Listen and write. There is one example.</p>
+    <p class="instr-es">Escucha y escribe la palabra que falta. Ejemplo: Comes: every <em>Saturday</em>.</p>
+    <div class="pic narrow"><img src="listening-movers/part2.jpg" alt="Sports centre homework form"></div>
+    <div class="player" data-audio="listening-movers/part2.mp3"></div>
+    <div class="qs" id="p2qs"></div>
+    <div class="actions"><button class="btn" data-check="2">Revisar</button><button class="btn sec" data-reset="2">Volver a intentar</button><span class="score" id="s2"></span><div class="msg" id="m2"></div></div>
+  </section>
+
+  <!-- PARTE 3 -->
+  <section class="part" id="p3">
+    <h2>Part 3</h2>
+    <p class="instr">Julia is telling her teacher about her family's weekend. What did each person do? Listen and write a letter in each box. There is one example.</p>
+    <p class="instr-es">Escucha qué hizo cada persona el fin de semana y elige la letra del dibujo. Ejemplo: Mum fue a la piscina (E).</p>
+    <div class="pic"><img src="listening-movers/part3.jpg" alt="Family members and pictures A to H"></div>
+    <div class="player" data-audio="listening-movers/part3.mp3"></div>
+    <div class="qs" id="p3qs"></div>
+    <div class="actions"><button class="btn" data-check="3">Revisar</button><button class="btn sec" data-reset="3">Volver a intentar</button><span class="score" id="s3"></span><div class="msg" id="m3"></div></div>
+  </section>
+
+  <!-- PARTE 4 -->
+  <section class="part" id="p4">
+    <h2>Part 4</h2>
+    <p class="instr">Listen and tick the box. There is one example.</p>
+    <p class="instr-es">Escucha y elige el dibujo correcto: A, B o C. El ejemplo ya está hecho.</p>
+    <div class="p4q"><img src="listening-movers/p4-ej.jpg" alt="Example: What's the matter with Paul?"><p class="ex" style="text-align:center;margin:8px 0 0">Ejemplo: la respuesta es A (a Paul le duele el oído).</p></div>
+    <div class="player" data-audio="listening-movers/part4.mp3"></div>
+    <div id="p4qs"></div>
+    <div class="actions"><button class="btn" data-check="4">Revisar</button><button class="btn sec" data-reset="4">Volver a intentar</button><span class="score" id="s4"></span><div class="msg" id="m4"></div></div>
+  </section>
+
+  <!-- PARTE 5 -->
+  <section class="part" id="p5">
+    <h2>Part 5</h2>
+    <p class="instr">Listen and colour and write. There is one example.</p>
+    <p class="instr-es">Escucha. Elige un color y toca la parte del dibujo que dicen para pintarla. Ejemplo: el pantalón del señor que pesca es rojo. Para la palabra, escríbela abajo y elige el barco.</p>
+    <div class="palette" id="palette"></div>
+    <p class="hint">Si te equivocas de color, elige otro y vuelve a tocar, o usa "Borrar".</p>
+    <div class="pic narrow" id="p5pic"><img src="listening-movers/part5.jpg" alt="Beach picture to colour"></div>
+    <div class="player" data-audio="listening-movers/part5.mp3"></div>
+    <div class="q" id="p5word"><span class="label">Pregunta 3: escribe la palabra</span><input type="text" id="wordIn" autocomplete="off" spellcheck="false" aria-label="Palabra"><span>en el</span><select id="boatIn"><option value="">elige el barco</option><option value="big">barco grande</option><option value="small">barco pequeño</option></select><div class="fb"></div></div>
+        <div class="qs" id="p5qs"></div>
+    <div class="actions"><button class="btn" data-check="5">Revisar</button><button class="btn sec" data-reset="5">Volver a intentar</button><span class="score" id="s5"></span><div class="msg" id="m5"></div></div>
+  </section>
+  <p class="back-top">Al terminar todo, sube a ver el puntaje total y toma la captura.</p>
+</div>
+
+<script>
+(function () {
+  var LETTERS8 = ["A","B","C","D","E","F","G","H"];
+  var scores = {1:null,2:null,3:null,4:null,5:null};
+
+  /* ---------- Reproductores ---------- */
+  var allAudios = [];
+  document.querySelectorAll("#lm .player").forEach(function (box) {
+    var a = document.createElement("audio");
+    a.src = box.getAttribute("data-audio"); a.preload = "metadata"; a.controls = true;
+    var play = document.createElement("button"); play.className = "play"; play.type = "button"; play.textContent = "▶ Escuchar";
+    var rs = document.createElement("button"); rs.className = "restart"; rs.type = "button"; rs.textContent = "⟲ Desde el inicio";
+    play.onclick = function () { if (a.paused) { a.play(); } else { a.pause(); } };
+    rs.onclick = function () { a.currentTime = 0; a.play(); };
+    a.addEventListener("play", function () { allAudios.forEach(function (o) { if (o !== a) o.pause(); }); play.textContent = "❚❚ Pausa"; });
+    a.addEventListener("pause", function () { play.textContent = "▶ Escuchar"; });
+    a.addEventListener("ended", function () { play.textContent = "▶ Escuchar otra vez"; });
+    allAudios.push(a);
+    box.appendChild(play); box.appendChild(rs); box.appendChild(a);
+  });
+
+  function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+  function norm(s) { return (s || "").toLowerCase().replace(/[.’'´`]/g, "").replace(/\s+/g, " ").trim(); }
+  function select(opts) { var s = el("select"); s.appendChild(new Option("—", "")); opts.forEach(function (o) { s.appendChild(new Option(o, o)); }); return s; }
+
+  /* ---------- Parte 1 ---------- */
+  // Letras sobre las personas (posiciones en % de la imagen)
+  var tags = [["A",27,40],["B",45,41],["C",55,40],["D",73,39],["E",92,46],["F",8,56],["G",23,57],["H",41,57],["I",61,70],["J",79,57]];
+  var p1pic = document.getElementById("p1pic");
+  tags.forEach(function (t) { var d = el("div", "tag" + (t[0] === "D" ? " exa" : ""), t[0]); d.style.left = t[1] + "%"; d.style.top = t[2] + "%"; p1pic.appendChild(d); });
+  var P1 = [
+    { name: "Nick", ans: "J", hint: "Nick es el niño de pelo café que está pintando un dibujo.",  why: "Nick es el niño de pelo café que pinta un dibujo (un delfín). Está sentado a la derecha, con su dibujo en la mano." },
+    { name: "Sally", ans: "B", hint: "Sally juega en la computadora; tiene el pelo más largo y lleva suéter.",  why: "Sally es la niña que juega en la computadora: la de pelo más largo que lleva suéter." },
+    { name: "Bill", ans: "F", hint: "Bill está junto al armario, leyendo un libro y riéndose.",  why: "Bill está junto al armario y lee un libro. Se ríe porque el libro es de un payaso." },
+    { name: "Alex", ans: "A", hint: "Alex es el niño que no está feliz y mira por la ventana.",  why: "Alex es el niño que mira por la ventana. Está triste porque quería jugar fútbol." },
+    { name: "Tom", ans: "I", hint: "Tom está debajo de la mesa comiendo una manzana.",  why: "Tom es el niño que está debajo de la mesa comiendo una manzana." }
+  ];
+  var p1qs = document.getElementById("p1qs");
+  var ex1 = el("div", "q"); ex1.innerHTML = '<span class="num">Ej.</span><span class="label">Vicky</span><span class="ex">D (the girl who is drawing a house)</span>'; p1qs.appendChild(ex1);
+  P1.forEach(function (q, i) {
+    var row = el("div", "q"); row.appendChild(el("span", "num", (i + 1) + "."));
+    row.appendChild(el("span", "label", q.name));
+    var s = select(["A","B","C","E","F","G","H","I","J"]); row.appendChild(s); row.appendChild(el("div", "fb"));
+    q.row = row; q.input = s; p1qs.appendChild(row);
+  });
+
+  /* ---------- Parte 2 ---------- */
+  var P2 = [
+    { label: "Favourite sport:", pre: "", ok: ["tennis","playing tennis"], show: "tennis", why: "Dice que a veces nada, pero que le gusta más jugar tenis (tennis)." },
+    { label: "Comes to sports centre by:", pre: "", ok: ["car","by car","a car"], show: "car", why: "No viene en bus. Viene en carro (car) porque es más rápido." },
+    { label: "Comes to sports centre with:", pre: "his", ok: ["son","his son"], show: "son", why: "Siempre viene con su hijo (his son). El hijo se está duchando." },
+    { label: "Likes sports centre because:", pre: "it's", ok: ["clean","its clean","it is clean"], show: "clean", why: "No es porque quede cerca de su casa. Le gusta porque está limpio (it's clean)." },
+    { label: "Name:", pre: "Mr", ok: ["pitt","mr pitt"], show: "Pitt", why: "Se llama Mr Pitt y lo deletrea: P - I - T - T. Lleva dos letras T." }
+  ];
+  var p2qs = document.getElementById("p2qs");
+  var ex2 = el("div", "q"); ex2.innerHTML = '<span class="num">Ej.</span><span class="label">Comes:</span><span class="ex">every Saturday</span>'; p2qs.appendChild(ex2);
+  P2.forEach(function (q, i) {
+    var row = el("div", "q"); row.appendChild(el("span", "num", (i + 1) + "."));
+    row.appendChild(el("span", "label", q.label));
+    if (q.pre) row.appendChild(el("span", null, q.pre));
+    var inp = el("input"); inp.type = "text"; inp.autocomplete = "off"; inp.spellcheck = false; row.appendChild(inp);
+    row.appendChild(el("div", "fb")); q.row = row; q.input = inp; p2qs.appendChild(row);
+  });
+
+  /* ---------- Parte 3 ---------- */
+  var P3 = [
+    { name: "Dad", ans: "G", hint: "Al final hablan del papá: no salió de la casa en todo el fin de semana.",  why: "El papá no salió: estuvo leyendo su libro electrónico nuevo (e-book), dibujo G." },
+    { name: "Aunt Zoe", ans: "B", hint: "No fueron a la feria. Escucha a dónde llevó la tía Zoe a los primos.",  why: "La tía Zoe llevó a los primos al circo y le gustaron los payasos, dibujo B." },
+    { name: "Uncle Fred", ans: "F", hint: "El tío Fred tiene algo pequeño que usa en el río.",  why: "El tío Fred salió a navegar en su bote pequeño el domingo, dibujo F." },
+    { name: "Grandpa", ans: "H", hint: "El abuelo casi siempre pesca, pero esta vez hizo otra cosa. Escucha dónde hizo su picnic.",  why: "El abuelo no fue a pescar. Caminó por el campo e hizo un picnic junto a una cascada, dibujo H." },
+    { name: "Clare", ans: "A", hint: "Clare es la hermana. Escucha qué hizo con sus amigas en el parque.",  why: "Clare, la hermana, fue a patinar con patines (roller skating) en el parque, dibujo A." }
+  ];
+  var p3qs = document.getElementById("p3qs");
+  var ex3 = el("div", "q"); ex3.innerHTML = '<span class="num">Ej.</span><span class="label">Mum</span><span class="ex">E (swimming pool)</span>'; p3qs.appendChild(ex3);
+  P3.forEach(function (q, i) {
+    var row = el("div", "q"); row.appendChild(el("span", "num", (i + 1) + "."));
+    row.appendChild(el("span", "label", q.name));
+    var s = select(LETTERS8); row.appendChild(s); row.appendChild(el("div", "fb"));
+    q.row = row; q.input = s; p3qs.appendChild(row);
+  });
+
+  /* ---------- Parte 4 ---------- */
+  var P4 = [
+    { img: "p4-1.jpg", q: "Which man is Mary's father?", ans: "A", why: "Mary dice que su papá tiene el pelo café como ella, bigote y también barba: es el A." },
+    { img: "p4-2.jpg", q: "What's Jane doing now?", ans: "B", why: "Jane jugó tenis en la mañana, pero ahora está viendo un DVD de fútbol en la tele: es el B." },
+    { img: "p4-3.jpg", q: "What did Fred have for breakfast today?", ans: "C", why: "Fred no comió naranja. Comió fruta: un guineo (banana) y una manzana: es el C." },
+    { img: "p4-4.jpg", q: "What work does Sue's mum do?", ans: "A", why: "La mamá de Sue trabaja en el hospital: es doctora, el A. La que quiere ser profesora es Sue." },
+    { img: "p4-5.jpg", q: "What present did Kim get yesterday?", ans: "A", why: "No fue una radio ni una bicicleta. Fue un perrito nuevo (a new puppy): es el A." }
+  ];
+  var p4qs = document.getElementById("p4qs");
+  P4.forEach(function (q, i) {
+    var box = el("div", "p4q");
+    var img = el("img"); img.src = "listening-movers/" + q.img; img.alt = q.q; box.appendChild(img);
+    var ch = el("div", "choices"); q.value = "";
+    ["A","B","C"].forEach(function (L) {
+      var b = el("button", "choice", L); b.type = "button";
+      b.onclick = function () { q.value = L; ch.querySelectorAll(".choice").forEach(function (x) { x.classList.toggle("sel", x === b); }); };
+      ch.appendChild(b);
+    });
+    box.appendChild(ch); box.appendChild(el("div", "fb")); q.row = box; q.choices = ch; p4qs.appendChild(box);
+  });
+
+  /* ---------- Parte 5 ---------- */
+  var COLORS = [["red","#e53935","rojo"],["green","#43a047","verde"],["purple","#8e44ad","morado"],["yellow","#fdd835","amarillo"],["pink","#f48fb1","rosado"],["blue","#1e88e5","azul"],["orange","#fb8c00","anaranjado"],["brown","#8d6e63","café"]];
+  var current = "green";
+  var palette = document.getElementById("palette");
+  COLORS.forEach(function (c) {
+    var s = el("button", "sw"); s.type = "button"; s.style.background = c[1]; s.title = c[2] + " (" + c[0] + ")"; s.setAttribute("aria-label", c[2]);
+    s.onclick = function () { current = c[0]; palette.querySelectorAll(".sw").forEach(function (x) { x.classList.toggle("sel", x === s); }); };
+    if (c[0] === current) s.classList.add("sel");
+    palette.appendChild(s);
+  });
+  var er = el("button", "sw borrar", "Borrar"); er.type = "button";
+  er.onclick = function () { current = ""; palette.querySelectorAll(".sw").forEach(function (x) { x.classList.toggle("sel", x === er); }); };
+  palette.appendChild(er);
+  function hex(name) { for (var i = 0; i < COLORS.length; i++) if (COLORS[i][0] === name) return COLORS[i][1]; return ""; }
+  function es(name) { for (var i = 0; i < COLORS.length; i++) if (COLORS[i][0] === name) return COLORS[i][2]; return "sin color"; }
+  // Zonas para pintar: [id, x, y, ancho, alto] en unidades de la imagen (405 x 495)
+  var W = 405, H = 495;
+  var zones = [
+    ["smallSail", 80, 18, 34, 75], ["smallHull", 60, 88, 72, 16], ["bigSail", 176, 8, 36, 75], ["bigHull", 146, 80, 104, 28],
+    ["flyBird", 270, 18, 56, 18], ["sandBird", 192, 172, 64, 34], ["swimmer", 106, 132, 60, 26], ["bucket", 266, 172, 32, 32],
+    ["olderBoy", 22, 196, 48, 50], ["blanket", 40, 296, 331, 84], ["manShirt", 118, 240, 56, 58], ["womanShirt", 240, 245, 58, 50],
+    ["youngBoy", 300, 372, 52, 54], ["fisherShirt", 304, 90, 28, 42], ["castle1", 84, 220, 42, 34], ["castle2", 225, 410, 42, 50]
+  ];
+  var painted = {};
+  var p5pic = document.getElementById("p5pic");
+  var zoneEls = {};
+  zones.forEach(function (z) {
+    var d = el("div", "hs"); d.style.left = (z[1] / W * 100) + "%"; d.style.top = (z[2] / H * 100) + "%";
+    d.style.width = (z[3] / W * 100) + "%"; d.style.height = (z[4] / H * 100) + "%";
+    if (z[0] === "blanket") { d.style.borderRadius = "0"; d.style.clipPath = "polygon(0% 28%, 80% 1%, 100% 40%, 18% 98%)"; }
+    d.onclick = function () { painted[z[0]] = current; d.style.background = current ? hex(current) : "transparent"; d.style.opacity = current ? "0.6" : "1"; };
+    zoneEls[z[0]] = d; p5pic.appendChild(d);
+  });
+  var boatWord = el("div", "boatword"); p5pic.appendChild(boatWord);
+  var wordIn = document.getElementById("wordIn"), boatIn = document.getElementById("boatIn");
+  function drawWord() {
+    var w = wordIn.value.trim(); var b = boatIn.value;
+    if (!w || !b) { boatWord.textContent = ""; return; }
+    boatWord.textContent = w;
+    if (b === "big") { boatWord.style.left = (198 / W * 100) + "%"; boatWord.style.top = (94 / H * 100) + "%"; }
+    else { boatWord.style.left = (96 / W * 100) + "%"; boatWord.style.top = (96 / H * 100) + "%"; }
+  }
+  wordIn.addEventListener("input", drawWord); boatIn.addEventListener("change", drawWord);
+  var P5 = [
+    { label: "Pregunta 1", zone: "olderBoy", color: "green", why: "Dicen: \"Colour his T-shirt green\". Es la camiseta del niño que juega en la arena más cerca del mar (a la izquierda)." },
+    { label: "Pregunta 2", zone: "blanket", color: "purple", why: "Preguntan si tienes un lápiz morado (purple) y dicen que pintes la manta de ese color." },
+    { label: "Pregunta 4", zone: "smallSail", color: "yellow", why: "Dicen que la vela del barco pequeño quedaría bien de amarillo (yellow)." },
+    { label: "Pregunta 5", zone: "sandBird", color: "pink", why: "No es el pájaro que vuela. Es el que está en la arena junto al señor que pesca, y lo pintan de rosado (pink)." }
+  ];
+  var p5qs = document.getElementById("p5qs");
+  var wordRow = document.getElementById("p5word");
+  P5.forEach(function (q, i) { var row = el("div", "q"); row.appendChild(el("span", "label", q.label)); row.appendChild(el("span", "ex", "colorear")); row.appendChild(el("div", "fb")); q.row = row; p5qs.appendChild(row); if (i === 1) p5qs.appendChild(wordRow); });
+
+  /* ---------- Revisar ---------- */
+  function mark(row, ok, okText, badText) {
+    row.classList.remove("ok", "bad"); row.classList.add(ok ? "ok" : "bad");
+    row.querySelector(".fb").textContent = ok ? okText : badText;
+  }
+  var cheer = ["¡Muy bien!", "¡Excelente!", "¡Correcto!", "¡Bien hecho!", "¡Así es!"];
+  function finish(n, good) {
+    scores[n] = good;
+    document.getElementById("s" + n).textContent = "Puntaje: " + good + " / 5";
+    document.getElementById("m" + n).textContent = good === 5 ? "¡Perfecto! Todas están bien." :
+      "Las rojas todavía se pueden arreglar: escucha otra vez, cambia tu respuesta y pulsa Revisar de nuevo.";
+    updateTotal();
+  }
+  function updateTotal() {
+    var t = 0, parts = [];
+    for (var i = 1; i <= 5; i++) { if (scores[i] != null) t += scores[i]; parts.push("Parte " + i + ": " + (scores[i] == null ? "–" : scores[i] + "/5")); }
+    document.getElementById("totalNum").textContent = t + " / 25";
+    document.getElementById("totalParts").textContent = parts.join(" · ");
+  }
+  function check(n) {
+    var good = 0;
+    if (n === 1 || n === 3) {
+      (n === 1 ? P1 : P3).forEach(function (q, i) {
+        var v = q.input.value, ok = v === q.ans; if (ok) good++;
+        mark(q.row, ok, cheer[i] + " " + q.why, v ? "Todavía no. Escucha otra vez. Pista: " + q.hint : "Falta elegir una letra. Escucha y elige una.");
+      });
+    } else if (n === 2) {
+      P2.forEach(function (q, i) {
+        var v = norm(q.input.value), ok = q.ok.indexOf(v) >= 0; if (ok) good++;
+        var hint = i === 4 ? "Escucha cómo lo deletrea, letra por letra." : "Escucha otra vez esa parte; la primera palabra que dicen no siempre es la respuesta.";
+        mark(q.row, ok, cheer[i] + " " + q.why, v ? "Todavía no. " + hint : "Falta escribir la palabra.");
+      });
+    } else if (n === 4) {
+      P4.forEach(function (q, i) {
+        var ok = q.value === q.ans; if (ok) good++;
+        mark(q.row, ok, cheer[i] + " " + q.why, q.value ? "Todavía no. Escucha otra vez: a veces primero dicen una opción y luego dicen que no." : "Falta elegir A, B o C.");
+      });
+    } else if (n === 5) {
+      P5.forEach(function (q, i) {
+        var v = painted[q.zone] || "", ok = v === q.color; if (ok) good++;
+        mark(q.row, ok, cheer[i] + " " + q.why, v ? "Todavía no. Lo pintaste de " + es(v) + ". Escucha otra vez qué color dicen." : "Esta parte todavía no tiene color. Escucha y píntala.");
+      });
+      var w = norm(wordIn.value), b = boatIn.value, okW = w === "wet" && b === "big"; if (okW) good++;
+      mark(wordRow, okW, "¡Muy bien! Dicen: \"Write the word wet on one of the boats\" y eligen el barco más grande.",
+        !w ? "Falta escribir la palabra. Escucha la pregunta 3." : (w !== "wet" ? "La palabra todavía no está bien. Escucha cómo la dicen en la pregunta 3 (es una palabra corta de 3 letras)." : "La palabra está bien, pero va en el otro barco. Escucha cuál barco dicen."));
+    }
+    finish(n, good);
+  }
+  function reset(n) {
+    var sec = document.getElementById("p" + n);
+    sec.querySelectorAll(".q, .p4q").forEach(function (r) { r.classList.remove("ok", "bad"); var f = r.querySelector(".fb"); if (f) f.textContent = ""; });
+    sec.querySelectorAll("select").forEach(function (s) { s.value = ""; });
+    sec.querySelectorAll("input[type=text]").forEach(function (s) { s.value = ""; });
+    if (n === 4) P4.forEach(function (q) { q.value = ""; q.choices.querySelectorAll(".choice").forEach(function (x) { x.classList.remove("sel"); }); });
+    if (n === 5) { painted = {}; Object.keys(zoneEls).forEach(function (k) { zoneEls[k].style.background = "transparent"; }); drawWord(); }
+    document.getElementById("s" + n).textContent = ""; document.getElementById("m" + n).textContent = "";
+    scores[n] = null; updateTotal();
+  }
+  document.querySelectorAll("#lm [data-check]").forEach(function (b) { b.onclick = function () { check(+b.getAttribute("data-check")); }; });
+  document.querySelectorAll("#lm [data-reset]").forEach(function (b) { b.onclick = function () { reset(+b.getAttribute("data-reset")); }; });
+})();
+</script>
+</body></html>

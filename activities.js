@@ -50,7 +50,9 @@ window.ESCUELA_ACTIVITIES = [
     color: "#1d4e89",
     tint: "#f8f1e4",
     shadow: "#8d6233",
-    activities: [],
+    activities: [
+      { title: "Listening: Movers", href: "ingles/listening-movers.html", detail: "5 partes con audio, Revisar y puntaje" },
+    ],
   },
   {
     id: "lenguaje",
@@ -60,6 +62,7 @@ window.ESCUELA_ACTIVITIES = [
     shadow: "#2a2416",
     activities: [
       { title: "Los accidentes del verbo", href: "lenguaje/accidentes-del-verbo.html", detail: "Persona, número, tiempo, modo e infinitivo" },
+      { title: "Los accidentes del verbo", href: "https://www.liveworksheets.com/es/c?a=s&t=63gcdyukq1z&sr=n&l=lm&i=ofoutst&r=mg&f=dzdxuuds&ms=uz&cd=p10bknixct7glavjejxzpzvbngnmxxnpxg&mw=hs", detail: "Taller de Liveworksheets: verbos, persona, número y tiempo. Al terminar, toma captura del puntaje" },
     ],
   },
   {
