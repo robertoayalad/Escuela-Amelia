@@ -52,6 +52,7 @@ window.ESCUELA_ACTIVITIES = [
     shadow: "#8d6233",
     activities: [
       { title: "Listening: Movers", href: "ingles/listening-movers.html", detail: "5 partes con audio, Revisar y puntaje" },
+      { title: "Listening (hoja oficial de Liveworksheets)", href: "https://www.liveworksheets.com/worksheet/en/esl-listening/1933370", detail: "La misma práctica en Liveworksheets. Se abre en otra pestaña" },
     ],
   },
   {
