@@ -40,6 +40,29 @@
   #lm .msg { flex-basis:100%; font-size:19px; }
   #lm .tag { position:absolute; transform:translate(-50%,-50%); background:#ffde59; color:#222; border:2px solid #222; border-radius:50%; width:34px; height:34px; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:18px; box-shadow:1px 1px 0 #222; }
   #lm .tag.exa { background:#cfe3ff; }
+  #lm .p1wrap { position:relative; max-width:620px; margin:0 auto; touch-action:manipulation; user-select:none; -webkit-user-select:none; }
+  #lm .p1wrap img { display:block; width:100%; height:auto; border-radius:10px; border:1px solid #dce5f2; }
+  #lm .p1wrap svg { position:absolute; inset:0; width:100%; height:100%; }
+  #lm .p1hint { text-align:center; font-size:18px; color:#1d4e89; font-weight:bold; min-height:28px; margin:10px 0 0; }
+  #lm .p1name { cursor:pointer; }
+  #lm .p1name rect { fill:#ffffff; fill-opacity:.01; stroke:none; }
+  #lm .p1name.sel rect { fill:#ffde59; fill-opacity:.3; stroke:#c8922a; stroke-width:3; }
+  #lm .p1name.used rect { fill:none; stroke:#1d4e89; stroke-width:3; }
+  #lm .p1per { cursor:pointer; }
+  #lm .p1per circle.hit { fill:#fff; fill-opacity:.01; stroke:none; }
+  #lm .p1per circle.dot { fill:#ffffff; stroke:#1d4e89; stroke-width:3; opacity:.85; }
+  #lm.p1armed .p1per circle.hit { fill:#ffde59; fill-opacity:.18; stroke:#c8922a; stroke-width:2; stroke-dasharray:6 5; }
+  #lm .p1line { stroke-width:7; stroke-linecap:round; fill:none; }
+  #lm .p1line.okl { stroke:#29a45c !important; }
+  #lm .p1line.badl { stroke:#df5555 !important; stroke-dasharray:14 9; }
+  #lm .p1end { stroke:#fff; stroke-width:3; }
+  #lm #p1qs .q .x { margin-left:auto; font-size:17px; background:#fff; border:2px solid #b8c6da; border-radius:10px; padding:6px 12px; cursor:pointer; color:#24344d; }
+  @media (max-width:700px) {
+    #lm { padding:12px; }
+    #lm .total { position:static; font-size:18px; padding:10px 14px; }
+    #lm .total span.parts { font-size:15px; }
+    #lm .part { padding:14px; }
+  }
   #lm .p4q { border:1px solid #dce5f2; border-radius:14px; padding:12px; margin:14px 0; }
   #lm .p4q img { width:100%; max-width:620px; display:block; margin:0 auto; border-radius:8px; }
   #lm .choices { display:flex; gap:12px; justify-content:center; margin-top:10px; }
@@ -73,8 +96,9 @@
   <section class="part" id="p1">
     <h2>Part 1</h2>
     <p class="instr">Listen and draw lines. There is one example.</p>
-    <p class="instr-es">Escucha y une cada nombre con la persona del dibujo. Cada persona tiene una letra amarilla. Ejemplo: Vicky es la niña que dibuja la casa en la pizarra (letra D). Un nombre sobra.</p>
-    <div class="pic narrow" id="p1pic"><img src="listening-movers/part1.jpg" alt="Classroom picture with children"></div>
+    <p class="instr-es">Escucha y une con una línea cada nombre con la persona del dibujo, como en el examen. Toca un nombre y luego toca a la persona. Para cambiar una línea, toca otra vez el nombre. Ejemplo: Vicky es la niña que dibuja la casa en la pizarra. Un nombre sobra y algunas personas quedan sin nombre.</p>
+    <div class="p1wrap" id="p1pic"><img src="listening-movers/part1.jpg" alt="Classroom picture with children and names around it"></div>
+    <p class="p1hint" id="p1hint">Toca un nombre para empezar.</p>
     <div class="player" data-audio="listening-movers/part1.mp3"></div>
     <div class="qs" id="p1qs"></div>
     <div class="actions"><button class="btn" data-check="1">Revisar</button><button class="btn sec" data-reset="1">Volver a intentar</button><span class="score" id="s1"></span><div class="msg" id="m1"></div></div>
@@ -155,25 +179,87 @@
   function select(opts) { var s = el("select"); s.appendChild(new Option("—", "")); opts.forEach(function (o) { s.appendChild(new Option(o, o)); }); return s; }
 
   /* ---------- Parte 1 ---------- */
-  // Letras sobre las personas (posiciones en % de la imagen)
-  var tags = [["A",27,40],["B",45,41],["C",55,40],["D",73,39],["E",92,46],["F",8,56],["G",23,57],["H",41,57],["I",61,70],["J",79,57]];
-  var p1pic = document.getElementById("p1pic");
-  tags.forEach(function (t) { var d = el("div", "tag" + (t[0] === "D" ? " exa" : ""), t[0]); d.style.left = t[1] + "%"; d.style.top = t[2] + "%"; p1pic.appendChild(d); });
+  // Dibujo de 820x980. Nombres alrededor y personas (coordenadas de la imagen).
+  var SVGNS = "http://www.w3.org/2000/svg";
+  var NAMES = { Alex:[50,42,"t"], Bill:[278,42,"t"], Nick:[510,42,"t"], Daisy:[757,42,"t"], Sally:[52,943,"b"], Vicky:[405,943,"b"], Tom:[764,943,"b"] };
+  var PEOPLE = { A:[215,440], B:[385,425], C:[440,425], D:[580,405], E:[752,520], F:[72,585], G:[205,595], H:[345,600], I:[515,715], J:[650,600] };
+  var COLORS = { Alex:"#e07a1f", Bill:"#7b3fb5", Nick:"#0b8a8a", Daisy:"#c2185b", Sally:"#d6336c", Tom:"#3a7d1c" };
   var P1 = [
-    { name: "Nick", ans: "J", hint: "Nick es el niño de pelo café que está pintando un dibujo.",  why: "Nick es el niño de pelo café que pinta un dibujo (un delfín). Está sentado a la derecha, con su dibujo en la mano." },
+    { name: "Nick", ans: "J", hint: "Nick es el niño que está pintando un dibujo.",  why: "Nick es el niño que pinta un dibujo (un delfín). Está sentado a la derecha, con su dibujo en la mano." },
     { name: "Sally", ans: "B", hint: "Sally juega en la computadora; tiene el pelo más largo y lleva suéter.",  why: "Sally es la niña que juega en la computadora: la de pelo más largo que lleva suéter." },
     { name: "Bill", ans: "F", hint: "Bill está junto al armario, leyendo un libro y riéndose.",  why: "Bill está junto al armario y lee un libro. Se ríe porque el libro es de un payaso." },
     { name: "Alex", ans: "A", hint: "Alex es el niño que no está feliz y mira por la ventana.",  why: "Alex es el niño que mira por la ventana. Está triste porque quería jugar fútbol." },
     { name: "Tom", ans: "I", hint: "Tom está debajo de la mesa comiendo una manzana.",  why: "Tom es el niño que está debajo de la mesa comiendo una manzana." }
   ];
+  var MAXLINES = P1.length;
+  var p1pic = document.getElementById("p1pic"), p1hint = document.getElementById("p1hint"), lmRoot = document.getElementById("lm");
+  var svg = document.createElementNS(SVGNS, "svg"); svg.setAttribute("viewBox", "0 0 820 980"); svg.setAttribute("preserveAspectRatio", "none");
+  function sv(tag, attrs, parent) { var e = document.createElementNS(SVGNS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); (parent || svg).appendChild(e); return e; }
+  var linesG = sv("g", {}), peopleG = sv("g", {}), namesG = sv("g", {});
+  function anchor(n) { var a = NAMES[n]; return [a[0], a[2] === "t" ? a[1] + 22 : a[1] - 24]; }
+  // Ejemplo ya dibujado: Vicky -> D
+  (function () { var s = anchor("Vicky"), e = PEOPLE.D;
+    sv("line", { x1:s[0], y1:s[1], x2:e[0], y2:e[1], "class":"p1line", stroke:"#1d4e89", "stroke-dasharray":"4 10", "stroke-width":"6" }, linesG);
+    sv("circle", { cx:e[0], cy:e[1], r:9, fill:"#1d4e89", "class":"p1end" }, linesG); })();
+  var selName = null, links = {}, lineEls = {}, nameEls = {};
+  Object.keys(PEOPLE).forEach(function (id) {
+    if (id === "D") return;
+    var g = sv("g", { "class":"p1per", "data-p":id }, peopleG);
+    sv("circle", { cx:PEOPLE[id][0], cy:PEOPLE[id][1], r:46, "class":"hit" }, g);
+    sv("circle", { cx:PEOPLE[id][0], cy:PEOPLE[id][1], r:7, "class":"dot" }, g);
+    g.addEventListener("click", function () { tapPerson(id); });
+  });
+  Object.keys(NAMES).forEach(function (n) {
+    if (n === "Vicky") return;
+    var a = NAMES[n], g = sv("g", { "class":"p1name", "data-n":n }, namesG);
+    sv("rect", { x:a[0] - 62, y:a[1] - 34, width:124, height:68, rx:16 }, g);
+    g.addEventListener("click", function () { tapName(n); });
+    nameEls[n] = g;
+  });
+  p1pic.appendChild(svg);
+  function say(s) { p1hint.textContent = s; }
+  function refresh() {
+    Object.keys(nameEls).forEach(function (n) { nameEls[n].classList.toggle("sel", n === selName); nameEls[n].classList.toggle("used", !!links[n] && n !== selName); });
+    lmRoot.classList.toggle("p1armed", !!selName);
+    P1.forEach(function (q) { var v = links[q.name] || ""; q.input.value = v;
+      q.state.textContent = v ? "unido ✓" : "sin línea"; q.x.style.display = v ? "" : "none"; });
+  }
+  function clearMarks() { P1.forEach(function (q) { q.row.classList.remove("ok", "bad"); q.row.querySelector(".fb").textContent = ""; });
+    Object.keys(lineEls).forEach(function (n) { lineEls[n].line.classList.remove("okl", "badl"); }); }
+  function removeLink(n) { if (lineEls[n]) { lineEls[n].line.remove(); lineEls[n].end.remove(); delete lineEls[n]; } delete links[n]; }
+  function tapName(n) {
+    if (selName === n) { selName = null; say("Toca un nombre para empezar."); refresh(); return; }
+    var count = Object.keys(links).filter(function (k) { return k !== n; }).length;
+    if (!links[n] && count >= MAXLINES) { say("Ya hay " + MAXLINES + " líneas. Toca un nombre unido para cambiar su línea."); return; }
+    selName = n; say(links[n] ? "Toca otra persona para cambiar la línea de " + n + ", o toca Borrar." : "Ahora toca a " + n + " en el dibujo.");
+    refresh();
+  }
+  function tapPerson(id) {
+    if (!selName) { say("Primero toca un nombre."); return; }
+    var n = selName;
+    Object.keys(links).forEach(function (k) { if (links[k] === id && k !== n) removeLink(k); });
+    removeLink(n);
+    var s = anchor(n), e = PEOPLE[id], c = COLORS[n] || "#1d4e89";
+    var line = sv("line", { x1:s[0], y1:s[1], x2:e[0], y2:e[1], "class":"p1line", style:"stroke:" + c }, linesG);
+    var end = sv("circle", { cx:e[0], cy:e[1], r:10, style:"fill:" + c, "class":"p1end" }, linesG);
+    lineEls[n] = { line:line, end:end }; links[n] = id; selName = null;
+    clearMarks(); say("Línea de " + n + " lista. Toca otro nombre.");
+    refresh();
+  }
   var p1qs = document.getElementById("p1qs");
-  var ex1 = el("div", "q"); ex1.innerHTML = '<span class="num">Ej.</span><span class="label">Vicky</span><span class="ex">D (the girl who is drawing a house)</span>'; p1qs.appendChild(ex1);
+  var ex1 = el("div", "q"); ex1.innerHTML = '<span class="num">Ej.</span><span class="label">Vicky</span><span class="ex">ya está unida (la niña que dibuja la casa)</span>'; p1qs.appendChild(ex1);
   P1.forEach(function (q, i) {
     var row = el("div", "q"); row.appendChild(el("span", "num", (i + 1) + "."));
-    row.appendChild(el("span", "label", q.name));
-    var s = select(["A","B","C","E","F","G","H","I","J"]); row.appendChild(s); row.appendChild(el("div", "fb"));
-    q.row = row; q.input = s; p1qs.appendChild(row);
+    var lab = el("span", "label", q.name); lab.style.color = COLORS[q.name]; lab.style.fontWeight = "bold"; row.appendChild(lab);
+    q.state = el("span", "ex", "sin línea"); row.appendChild(q.state);
+    q.x = el("button", "x", "Borrar"); q.x.type = "button"; q.x.style.display = "none";
+    q.x.onclick = function () { removeLink(q.name); if (selName === q.name) selName = null; clearMarks(); say("Línea borrada."); refresh(); };
+    row.appendChild(q.x); row.appendChild(el("div", "fb"));
+    q.row = row; q.input = { value: "" }; p1qs.appendChild(row);
   });
+  function resetP1() { Object.keys(links).forEach(removeLink); selName = null; say("Toca un nombre para empezar."); refresh(); }
+  function markP1Lines() { P1.forEach(function (q) { var l = lineEls[q.name]; if (l) l.line.classList.add(links[q.name] === q.ans ? "okl" : "badl"); }); }
+  refresh();
 
   /* ---------- Parte 2 ---------- */
   var P2 = [
@@ -308,8 +394,9 @@
     if (n === 1 || n === 3) {
       (n === 1 ? P1 : P3).forEach(function (q, i) {
         var v = q.input.value, ok = v === q.ans; if (ok) good++;
-        mark(q.row, ok, cheer[i] + " " + q.why, v ? "Todavía no. Escucha otra vez. Pista: " + q.hint : "Falta elegir una letra. Escucha y elige una.");
+        mark(q.row, ok, cheer[i] + " " + q.why, v ? "Todavía no. Escucha otra vez. Pista: " + q.hint : (n === 1 ? "Falta la línea de " + q.name + ". Toca el nombre y luego a la persona." : "Falta elegir una letra. Escucha y elige una."));
       });
+      if (n === 1) markP1Lines();
     } else if (n === 2) {
       P2.forEach(function (q, i) {
         var v = norm(q.input.value), ok = q.ok.indexOf(v) >= 0; if (ok) good++;
@@ -338,6 +425,7 @@
     sec.querySelectorAll("select").forEach(function (s) { s.value = ""; });
     sec.querySelectorAll("input[type=text]").forEach(function (s) { s.value = ""; });
     if (n === 4) P4.forEach(function (q) { q.value = ""; q.choices.querySelectorAll(".choice").forEach(function (x) { x.classList.remove("sel"); }); });
+    if (n === 1) resetP1();
     if (n === 5) { painted = {}; Object.keys(zoneEls).forEach(function (k) { zoneEls[k].style.background = "transparent"; }); drawWord(); }
     document.getElementById("s" + n).textContent = ""; document.getElementById("m" + n).textContent = "";
     scores[n] = null; updateTotal();
